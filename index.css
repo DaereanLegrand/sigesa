@@ -1,0 +1,116 @@
+@font-face {
+    font-family: armalite;
+    src: url("./resources/fonts/armalite_rifle.ttf");
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+}
+
+.main-div {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+}
+
+.background-img {
+    background-image: url("./images/digitalized.jpg");
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5; /* Set the opacity for the background image */
+    z-index: -1; /* Move the background image behind other content */
+}
+
+.logo-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    height: 100vh;
+}
+
+#ejercito {
+    width: 60%;
+    height: fit-content;
+}
+
+#cuarta {
+    width: 85%;
+    height: fit-content;
+}
+
+.login-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 100vh;
+    text-align: center;
+}
+
+.bienvenida {
+    font-family: armalite;
+    color: white;
+    text-shadow: -2px 0 black, 0 2px black, 9px 0 black, 0 -9px black;
+    font-size: 9vh;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+}
+
+.login-input {
+    margin-bottom: 5%;
+    width: 100%;
+    height: 4vh;
+    box-sizing: border-box;
+    border-radius: 1vh;
+    padding: 2vh;
+    border-color: #bdbdbd;
+    border-width: 5px;
+    font-size: 2vh;
+    font-family: "Courier New", Courier, monospace;
+}
+
+.login-input:focus {
+    outline: none;
+    box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.2);
+}
+
+.login-submit { 
+    width: 100%;
+    height: 4vh;
+    background-color: #4d5d53;
+    color: #ffffff;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bolder;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    border: 2px solid #262E29;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.login-submit:hover {
+    background-color: #3e4841;
+}
+
+.login-submit:focus {
+    outline: none;
+}
+
+.login-submit:active {
+    background-color: #323b35;
+}

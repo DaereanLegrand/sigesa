@@ -1,0 +1,25 @@
+{
+  "name": "sigesa",
+  "version": "1.0.0",
+  "description": "Sistema Gestor de Ingresos y Salidas",
+  "main": "main.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DaereanLegrand/sigesa.git"
+  },
+  "author": "Frank Salas, Hernan Apaza",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DaereanLegrand/sigesa/issues"
+  },
+  "homepage": "https://github.com/DaereanLegrand/sigesa#readme",
+  "devDependencies": {
+    "electron": "^25.3.1"
+  }
+}

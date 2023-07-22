@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="./index.css" />
+        <script defer src="./scripts/user.js"></script>
+        <script defer src="./render.js"></script>
+        <meta charset="UTF-8" />
+        <meta
+            http-equiv="Content-Security-Policy"
+            content="default-src 'self' https://localhost:8080; script-src 'self'"
+        />
+        <title>SIGESA</title>
+    </head>
+    <body>
+        <div class="main-div">
+            <div class="background-img"></div>
+            <div id="mDiv" class="main-div">
+                <div class="logo-div">
+                    <img
+                        id="ejercito"
+                        class="logo-img"
+                        src="./images/ejercito.png"
+                        alt="Logo"
+                    />
+                </div>
+                <div class="login-div">
+                    <h1 class="bienvenida">BIENVENIDO MONTAÑERO</h1>
+                    <form class="login-form" id="loginForm">
+                        <input
+                            type="text"
+                            id="user"
+                            name="user"
+                            class="login-input"
+                            placeholder="CIP"
+                        />
+                        <input
+                            type="password"
+                            id="pass"
+                            name="pass"
+                            class="login-input"
+                            placeholder="Contraseña"
+                        />
+                        <button id="btn-submit" class="login-submit">
+                            INGRESAR
+                        </button>
+                    </form>
+                </div>
+                <div class="logo-div">
+                    <img
+                        id="cuarta"
+                        class="logo-img"
+                        src="./images/4taBRIGMTÑ.png"
+                        alt="Logo"
+                    />
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
