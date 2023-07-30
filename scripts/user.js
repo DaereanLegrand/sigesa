@@ -3,7 +3,7 @@ class User {
 
     validarCredenciales() {
         this.user = document.getElementById("user").value;
-        this.pass = document.getElementById("pass").value;
+        this.pass = document.getElementById("pass").value; // HASH NEEDED
 
         fetch("https://localhost:8080/login", {
             method: "POST",
@@ -13,6 +13,10 @@ class User {
             .then((data) => {
                 if (data[0].count != 0) {
                     document.getElementById("mDiv").innerHTML = '';
+
+                    var menu = new Menu;
+                    document.getElementById("mDiv").appendChild(menu.showMenu());
+                    
                     return true;
                 } else {
                     return false;
