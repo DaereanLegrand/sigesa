@@ -1,4 +1,5 @@
 const user = new User();
+const inicio = new Inicio();
 const loginForm = document.getElementById("loginForm");
 
 loginForm.addEventListener('submit', (event) => {
