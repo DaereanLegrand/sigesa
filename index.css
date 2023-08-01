@@ -15,7 +15,7 @@
 
 @font-face {
     font-family: ibm-plex-semi-bold;
-    src: url("./resources/fonts/IBMPlexMono-SemiBold.ttf")
+    src: url("./resources/fonts/IBMPlexMono-SemiBold.ttf");
 }
 
 body {
@@ -161,7 +161,7 @@ body {
 
 .btn-menu {
     display: inline-block;
-    font-size: 25px;
+    font-size: 2vh;
     font-family: "Courier New", Courier, monospace;
     text-align: center;
     text-decoration: none;
@@ -198,7 +198,6 @@ body {
 
 #bienvenida-contenido {
     font-family: noto-sans-bold;
-    
 }
 
 .info-div {
@@ -223,7 +222,8 @@ body {
     margin-top: 0px;
 }
 
-.action-button {
+.action-button,
+.registrar-submit {
     height: 4vh;
     background-color: #4d5d53;
     color: #ffffff;
@@ -238,13 +238,63 @@ body {
     align-self: center;
 }
 
-.tabla-div {
+.registrar-submit {
+    font-size: 2.5vh;
+    height: fit-content;
+    margin-top: 3vh;
+}
+
+.tabla-div,
+.form-div {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 1vh;
     margin-bottom: 1vh;
     height: 70vh;
+}
+
+.form-div {
+    justify-content: center;
+    align-self: center;
+    background-color: rgba(23, 45, 37, 0.8);
+    width: 80%;
+}
+
+.form-registro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 70vh;
+}
+
+.form-registro label {
+    color: white;
+}
+
+.form-registro div {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+}
+
+.form-registro div label {
+    font-family: noto-sans;
+    font-size: larger;
+}
+
+.form-registro div input, .form-registro div textarea {
+    width: 25vw;
+    height: 2.5vh;
+}
+
+.form-registro div select {
+    width: 25vw;
+    height: 3vh;
+    font-size: medium;
 }
 
 #tabla-personal {
@@ -257,7 +307,8 @@ body {
     font-family: ibm-plex-semi-bold;
 }
 
-#tabla-personal th, #tabla-personal td {
+#tabla-personal th,
+#tabla-personal td {
     border: 2px solid white;
     padding-top: 0.5vh;
     padding-bottom: 0.5vh;
@@ -265,7 +316,7 @@ body {
 
 #tabla-personal thead {
     color: white;
-    background-color: #102D23;
+    background-color: #102d23;
     height: 4vh;
 }
 

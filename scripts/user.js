@@ -11,11 +11,18 @@ class User {
         })
             .then((response) => response.json())
             .then((data) => {
-                if (data[0].count != 0) {
+                if (data[0].count != 0 && data[0].tipo == "admin") {
                     document.getElementById("mDiv").innerHTML = '';
 
                     var menu = new Menu;
-                    document.getElementById("mDiv").appendChild(menu.showMenu());
+                    document.getElementById("mDiv").appendChild(menu.showMenuAdmin());
+                    
+                    return true;
+                } else if (data[0].count != 0 && data[0].tipo == "usuario") {
+                    document.getElementById("mDiv").innerHTML = '';
+
+                    var menu = new Menu;
+                    document.getElementById("mDiv").appendChild(menu.showMenuUsuario());
                     
                     return true;
                 } else {
