@@ -117,6 +117,31 @@ class Registrar {
         return containerDiv;
     }
 
+    registrarPersona(event) {
+        event.preventDefault();
+
+        fetch("https://localhost:8080/registrarPersona", {
+            method: "POST",
+            body: JSON.stringify({
+                dni: document.getElementById("dni").value,
+                nombres: document.getElementById("nombres").value,
+                apellidos: document.getElementById("apellidos").value,
+                cip: document.getElementById("cip").value,
+                rango: document.getElementById("rango-select").value,
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                if (data != null && data.success == true) {
+                    //ipcRenderer.send(
+                    //    "show-success-dialog",
+                    //    "La persona fue agregada a la base de datos con exito."
+                    //);
+                }
+            });
+    }
+
     showRegistrarPersona(contentDiv) {
         contentDiv.innerHTML = "";
 
@@ -153,6 +178,16 @@ class Registrar {
                 "cip",
                 "form-inp",
                 "9",
+                true
+            )
+        );
+        formRegistro.appendChild(
+            this.createInputField(
+                "DNI: ",
+                "number",
+                "dni",
+                "form-inp",
+                "8",
                 true
             )
         );
@@ -210,6 +245,10 @@ class Registrar {
         var btnSubmit = document.createElement("button");
         btnSubmit.className = "registrar-submit";
         btnSubmit.innerText = "Registrar persona";
+
+        btnSubmit.addEventListener("click", (event) => {
+            this.registrarPersona(event);
+        });
 
         formRegistro.appendChild(divCheck);
         formRegistro.appendChild(divDropdown);

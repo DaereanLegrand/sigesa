@@ -10,8 +10,6 @@ const tropa = ['Sargento 1ra', 'Sargento 2da', 'Cabo', 'Soldado'];
 
 const tropaAbv = ['SGTO1', 'SGTO2', 'CABO', 'SLDO'];
 
-
-
 function ftopBar() {
     var topBar = document.createElement('div');
     topBar.className = "top-bar";
