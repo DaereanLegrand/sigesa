@@ -6,6 +6,7 @@ class Inicio {
             "DNI",
             "Grado",
             "Apellidos y Nombres",
+            "Motivo",
             "Hora de Ingreso",
             "Hora de Salida",
         ];
@@ -36,12 +37,15 @@ class Inicio {
                     head.style.width = "8vw";
                     break;
                 case 4:
-                    head.style.width = "35vw";
+                    head.style.width = "20vw";
                     break;
                 case 5:
-                    head.style.width = "5vw";
+                    head.style.width = "20vw";
                     break;
                 case 6:
+                    head.style.width = "5vw";
+                    break;
+                case 7:
                     head.style.width = "5vw";
                     break;
             }

@@ -15,7 +15,11 @@ class Persona {
                     if (data.exists == true) {
                         document.getElementById("nombres").value = data.nombres;
                         document.getElementById("apellidos").value = data.apellidos;
+                        document.getElementById("nombres").readOnly = true;
+                        document.getElementById("apellidos").readOnly = true;
                     } else if (data.exists == false) {
+                        document.getElementById("nombres").readOnly = false;
+                        document.getElementById("apellidos").readOnly = false;
                     }
                 }
             });

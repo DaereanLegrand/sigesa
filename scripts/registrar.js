@@ -174,6 +174,7 @@ class Registrar {
             )
         );
         contentDiv.appendChild(formDiv);
+
     }
 
     showRegistrarVehiculo(contentDiv) {
@@ -462,6 +463,10 @@ class Registrar {
         var btnSubmit = document.createElement("button");
         btnSubmit.className = "registrar-submit";
         btnSubmit.innerText = "Registrar ingreso";
+        btnSubmit.addEventListener("click", (event) => {
+            this.registrarIngresoPersona(event);
+        });
+
 
         formRegistro.appendChild(
             createInputField("DNI", "number", "dni", "form-inp", "9", true)
@@ -556,5 +561,51 @@ class Registrar {
             )
         );
         contentDiv.appendChild(formDiv);
+    }
+    async registrarIngresoPersona(event){
+        event.preventDefault();
+
+        if (document.getElementById("apellidos").readOnly == false){
+            try {
+                const response = await fetch("https://localhost:8080/registrarPersona", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        dni: document.getElementById("dni").value,
+                        apellidos: document.getElementById("apellidos").value,
+                        nombres: document.getElementById("nombres").value,
+                    }),
+                });
+        
+                const data = await response.json();
+        
+                if (data != null) {
+                    if (data.success == true) {
+                        window.api.dialog(
+                            "Exito",
+                            "La persona fue registrada correctamente."
+                        );
+                    } else if (data.success == false) {
+                        window.api.dialog(
+                            "Error",
+                            `Hubo un error al registrar a dicha persona. ERROR: ${data.error}`
+                        );
+                    }
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
+
+        } 
+            fetch("https://localhost:8080/registrarIngresoPersona", {
+                method: "POST",
+                body: JSON.stringify({
+                    dni: document.getElementById("dni").value,
+                    apellidos: document.getElementById("apellidos").value,
+                    nombres: document.getElementById("nombres").value,
+                    motivo: document.getElementById("motivo").value,
+                    personavisitada: document.getElementById("persona-visitada").value,
+                    dia_guardia: obtenerDiaDeGuardia(),
+                }),
+            })
     }
 }
