@@ -25,6 +25,7 @@ class Menu {
             "Registrar Persona",
             "Registrar Vehículo",
             "Personal de guardia",
+            "Generación de BARCODES",
         ];
 
         buttonsAdmin.map((name) => {
@@ -71,6 +72,19 @@ class Menu {
 
                         lastClicked = item;
                     });
+                    break;
+                case "Generación de BARCODES":
+                    btn1.addEventListener("click", () => {
+                        if (lastClicked != null) {
+                            lastClicked.style.boxShadow = "0 4px 0 #8a8d8f";
+                        }
+
+                        registrar.showRegistrarVehiculo(contentDisp);
+                        item.style.boxShadow = "0 4px 0 #174A3B";
+
+                        lastClicked = item;
+                    });
+
                     break;
             }
 
