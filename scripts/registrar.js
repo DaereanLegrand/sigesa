@@ -1,122 +1,4 @@
 class Registrar {
-    createDropdown(selectedCategory) {
-        var dropdown = document.getElementById("rango-select");
-        dropdown.innerHTML = "";
-
-        switch (selectedCategory) {
-            case "oficiales":
-                oficiales.forEach((item, index) => {
-                    const option = document.createElement("option");
-                    option.value = oficialesAbv[index];
-                    option.textContent = item;
-                    dropdown.appendChild(option);
-                });
-                break;
-
-            case "tcosyso":
-                tcosyso.forEach((item, index) => {
-                    const option = document.createElement("option");
-                    option.value = tcosysoAbv[index];
-                    option.textContent = item;
-                    dropdown.appendChild(option);
-                });
-                break;
-
-            case "tropa":
-                tropa.forEach((item, index) => {
-                    const option = document.createElement("option");
-                    option.value = tropaAbv[index];
-                    option.textContent = item;
-                    dropdown.appendChild(option);
-                });
-                break;
-        }
-
-        return dropdown;
-    }
-
-    createDropdownWithLabel(id, labelText, options) {
-        const containerDiv = document.createElement("div");
-
-        const label = document.createElement("label");
-        label.textContent = labelText;
-        label.setAttribute("for", id);
-
-        const dropdown = document.createElement("select");
-        dropdown.id = id;
-
-        options.forEach((option) => {
-            const optionElement = document.createElement("option");
-            optionElement.value = option;
-            optionElement.textContent = option;
-            dropdown.appendChild(optionElement);
-        });
-
-        containerDiv.appendChild(label);
-        containerDiv.appendChild(dropdown);
-
-        return containerDiv;
-    }
-
-    createInputField(
-        labelText,
-        inputType,
-        inputId,
-        inputClass,
-        maxLength,
-        isRequired
-    ) {
-        const containerDiv = document.createElement("div");
-
-        const label = document.createElement("label");
-        label.textContent = labelText;
-
-        const input = document.createElement("input");
-        input.type = inputType;
-        input.id = inputId;
-        input.className = inputClass;
-        input.maxLength = maxLength;
-        input.required = isRequired;
-
-        containerDiv.appendChild(label);
-        containerDiv.appendChild(input);
-
-        if (maxLength == "1000") {
-            input.style.height = "4vh";
-        }
-
-        return containerDiv;
-    }
-
-    createTextArea(
-        labelText,
-        inputType,
-        inputId,
-        inputClass,
-        maxLength,
-        isRequired
-    ) {
-        const containerDiv = document.createElement("div");
-
-        const label = document.createElement("label");
-        label.textContent = labelText;
-
-        const input = document.createElement("textarea");
-        input.id = inputId;
-        input.className = inputClass;
-        input.maxLength = maxLength;
-        input.required = isRequired;
-
-        containerDiv.appendChild(label);
-        containerDiv.appendChild(input);
-
-        if (maxLength == "1000") {
-            input.style.height = "4vh";
-        }
-
-        return containerDiv;
-    }
-
     registrarPersona(event) {
         event.preventDefault();
 
@@ -133,11 +15,54 @@ class Registrar {
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
-                if (data != null && data.success == true) {
-                    //ipcRenderer.send(
-                    //    "show-success-dialog",
-                    //    "La persona fue agregada a la base de datos con exito."
-                    //);
+                if (data != null) {
+                    if (data.success == true) {
+                        window.api.dialog(
+                            "Exito",
+                            "La persona fue registrada correctamente."
+                        );
+                        this.showRegistrarPersona(
+                            document.getElementById("cdiv")
+                        );
+                    } else if (data.success == false) {
+                        window.api.dialog(
+                            "Error",
+                            `Hubo un error al registrar a dicha persona. ERROR: ${data.error}`
+                        );
+                    }
+                }
+            });
+    }
+
+    registrarVehiculo(event) {
+        event.preventDefault();
+        fetch("https://localhost:8080/registrarVehiculo", {
+            method: "POST",
+            body: JSON.stringify({
+                placa: document.getElementById("placa").value,
+                color: document.getElementById("color-select").value,
+                marca: document.getElementById("marca-select").value,
+                modelo: document.getElementById("modelo-select").value,
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                if (data != null) {
+                    if (data.success == true) {
+                        window.api.dialog(
+                            "Exito",
+                            "El vehículo fue registrado correctamente."
+                        );
+                        this.showRegistrarVehiculo(
+                            document.getElementById("cdiv")
+                        );
+                    } else if (data.success == false) {
+                        window.api.dialog(
+                            "Error",
+                            `Hubo un error al registrar a dicho vehículo. ERROR: ${data.error}`
+                        );
+                    }
                 }
             });
     }
@@ -152,7 +77,7 @@ class Registrar {
         formRegistro.className = "form-registro";
 
         formRegistro.appendChild(
-            this.createInputField(
+            createInputField(
                 "Apellidos: ",
                 "text",
                 "apellidos",
@@ -162,7 +87,7 @@ class Registrar {
             )
         );
         formRegistro.appendChild(
-            this.createInputField(
+            createInputField(
                 "Nombres: ",
                 "text",
                 "nombres",
@@ -172,24 +97,10 @@ class Registrar {
             )
         );
         formRegistro.appendChild(
-            this.createInputField(
-                "CIP: ",
-                "number",
-                "cip",
-                "form-inp",
-                "9",
-                true
-            )
+            createInputField("CIP: ", "number", "cip", "form-inp", "9", true)
         );
         formRegistro.appendChild(
-            this.createInputField(
-                "DNI: ",
-                "number",
-                "dni",
-                "form-inp",
-                "8",
-                true
-            )
+            createInputField("DNI: ", "number", "dni", "form-inp", "8", true)
         );
 
         const labelCheckbox = document.createElement("label");
@@ -215,7 +126,7 @@ class Registrar {
                 const selectedCategory = event.target.value;
 
                 if (event.target.checked) {
-                    this.createDropdown(selectedCategory);
+                    createDropdown(selectedCategory);
                 }
             });
 
@@ -275,7 +186,7 @@ class Registrar {
         formRegistro.className = "form-registro";
 
         formRegistro.appendChild(
-            this.createInputField(
+            createInputField(
                 "Placa de Matrícula",
                 "text",
                 "placa",
@@ -297,7 +208,7 @@ class Registrar {
             "Otro",
         ];
 
-        const colorDropdownWithLabel = this.createDropdownWithLabel(
+        const colorDropdownWithLabel = createDropdownWithLabel(
             "color-select",
             "Color:",
             popularColors
@@ -318,7 +229,7 @@ class Registrar {
             "Otro",
         ];
 
-        const modelDropdownWithLabel = this.createDropdownWithLabel(
+        const modelDropdownWithLabel = createDropdownWithLabel(
             "modelo-select",
             "Modelo:",
             popularModels
@@ -339,7 +250,7 @@ class Registrar {
             "Otro",
         ];
 
-        const brandDropdownWithLabel = this.createDropdownWithLabel(
+        const brandDropdownWithLabel = createDropdownWithLabel(
             "marca-select",
             "Marca:",
             popularBrands
@@ -348,6 +259,9 @@ class Registrar {
         var btnSubmit = document.createElement("button");
         btnSubmit.className = "registrar-submit";
         btnSubmit.innerText = "Registrar vehículo";
+        btnSubmit.addEventListener("click", (event) => {
+            this.registrarVehiculo(event);
+        });
 
         formRegistro.appendChild(colorDropdownWithLabel);
         formRegistro.appendChild(modelDropdownWithLabel);
@@ -366,7 +280,177 @@ class Registrar {
         contentDiv.appendChild(formDiv);
     }
 
-    showRegistrarIngreso(contentDiv) {
+    showRegistrarIngresoVehiculo(contentDiv) {
+        contentDiv.innerHTML = "";
+
+        var formDiv = document.createElement("div");
+        formDiv.className = "form-div";
+
+        var formRegistro = document.createElement("form");
+        formRegistro.className = "form-registro";
+
+        formRegistro.appendChild(
+            createInputField("DNI: ", "number", "dni", "form-inp", "8", true)
+        );
+
+        formRegistro.appendChild(
+            createInputField(
+                "Placa de Matrícula",
+                "text",
+                "placa",
+                "form-inp",
+                "7",
+                true
+            )
+        );
+
+        const popularColors = [
+            "Negro",
+            "Blanco",
+            "Gris",
+            "Rojo",
+            "Azul",
+            "Verde",
+            "Amarillo",
+            "Plata",
+            "Otro",
+        ];
+
+        const colorDropdownWithLabel = createDropdownWithLabel(
+            "color-select",
+            "Color:",
+            popularColors
+        );
+
+        const popularModels = [
+            "Sedán",
+            "Camioneta",
+            "SUV",
+            "Hatchback",
+            "Pick-up",
+            "Coupe",
+            "Convertible",
+            "Tanque",
+            "Transporte blindado de personal",
+            "Vehículo todoterreno",
+            "Camión militar",
+            "Otro",
+        ];
+
+        const modelDropdownWithLabel = createDropdownWithLabel(
+            "modelo-select",
+            "Modelo:",
+            popularModels
+        );
+
+        const popularBrands = [
+            "Toyota",
+            "Honda",
+            "Ford",
+            "Chevrolet",
+            "Nissan",
+            "Volkswagen",
+            "BMW",
+            "Mercedes-Benz",
+            "Audi",
+            "Hyundai",
+            "Kia",
+            "Otro",
+        ];
+
+        const brandDropdownWithLabel = createDropdownWithLabel(
+            "marca-select",
+            "Marca:",
+            popularBrands
+        );
+
+        formRegistro.appendChild(
+            createInputField(
+                "Apellidos: ",
+                "text",
+                "apellidos",
+                "form-inp",
+                "100",
+                true
+            )
+        );
+        formRegistro.appendChild(
+            createInputField(
+                "Nombres: ",
+                "text",
+                "nombres",
+                "form-inp",
+                "100",
+                true
+            )
+        );
+
+        var btnSubmit = document.createElement("button");
+        btnSubmit.className = "registrar-submit";
+        btnSubmit.innerText = "Registrar ingreso";
+        btnSubmit.addEventListener("click", (event) => {
+            // this.registrarVehiculo(event);
+        });
+
+        formRegistro.appendChild(colorDropdownWithLabel);
+        formRegistro.appendChild(modelDropdownWithLabel);
+        formRegistro.appendChild(brandDropdownWithLabel);
+        formRegistro.appendChild(
+            createTextArea(
+                "Motivo: ",
+                "text",
+                "motivo",
+                "form-inp",
+                "1000",
+                true
+            )
+        );
+        formRegistro.appendChild(
+            createInputField(
+                "A quien visita: ",
+                "text",
+                "persona-visitada",
+                "form-inp",
+                "100",
+                true
+            )
+        );
+
+        formRegistro.appendChild(btnSubmit);
+
+        var bottomButtons = document.createElement("div");
+        bottomButtons.className = "bottom-buttons-div";
+        var btnIngVehiculos = document.createElement("button");
+        btnIngVehiculos.innerText = "Ingreso de Personas";
+        btnIngVehiculos.className = "action-button";
+
+        btnIngVehiculos.addEventListener("click", () => {
+            this.showRegistrarIngresoPersonas(contentDiv);
+        });
+
+        bottomButtons.appendChild(btnIngVehiculos);
+
+        formDiv.appendChild(formRegistro);
+        contentDiv.appendChild(ftopBar());
+        contentDiv.appendChild(
+            finfoDiv(
+                "Registrar ingreso de un vehículo",
+                "Llene este formulario para registrar el ingreso de un vehículo."
+            )
+        );
+        contentDiv.appendChild(formDiv);
+        contentDiv.appendChild(bottomButtons);
+
+        document.getElementById("dni").addEventListener("blur", (event) => {
+            persona.getPersona(event);
+        });
+
+        document.getElementById("placa").addEventListener("blur", (event) => {
+            vehiculo.getVehiculo(event);
+        })
+    }
+
+    showRegistrarIngresoPersonas(contentDiv) {
         contentDiv.innerHTML = "";
 
         var formDiv = document.createElement("div");
@@ -380,10 +464,10 @@ class Registrar {
         btnSubmit.innerText = "Registrar ingreso";
 
         formRegistro.appendChild(
-            this.createInputField("DNI", "number", "dni", "form-inp", "9", true)
+            createInputField("DNI", "number", "dni", "form-inp", "9", true)
         );
         formRegistro.appendChild(
-            this.createInputField(
+            createInputField(
                 "Apellidos: ",
                 "text",
                 "apellidos",
@@ -393,7 +477,7 @@ class Registrar {
             )
         );
         formRegistro.appendChild(
-            this.createInputField(
+            createInputField(
                 "Nombres: ",
                 "text",
                 "nombres",
@@ -403,7 +487,7 @@ class Registrar {
             )
         );
         formRegistro.appendChild(
-            this.createTextArea(
+            createTextArea(
                 "Motivo: ",
                 "text",
                 "motivo",
@@ -413,7 +497,7 @@ class Registrar {
             )
         );
         formRegistro.appendChild(
-            this.createInputField(
+            createInputField(
                 "A quien visita: ",
                 "text",
                 "persona-visitada",
@@ -425,18 +509,36 @@ class Registrar {
 
         formRegistro.appendChild(btnSubmit);
 
+        var bottomButtons = document.createElement("div");
+        bottomButtons.className = "bottom-buttons-div";
+        var btnIngVehiculos = document.createElement("button");
+        btnIngVehiculos.innerText = "Ingreso de Vehículos";
+        btnIngVehiculos.className = "action-button";
+
+        btnIngVehiculos.addEventListener("click", () => {
+            this.showRegistrarIngresoVehiculo(contentDiv);
+        });
+
+        bottomButtons.appendChild(btnIngVehiculos);
+
         formDiv.appendChild(formRegistro);
         contentDiv.appendChild(ftopBar());
         contentDiv.appendChild(
             finfoDiv(
-                "Registrar ingreso",
+                "Registrar ingreso de una persona",
                 "Llene este formulario para registrar el ingreso de una persona."
             )
         );
         contentDiv.appendChild(formDiv);
+
+        document.getElementById("dni").addEventListener("blur", (event) => {
+            persona.getPersona(event);
+        });
+
+        contentDiv.appendChild(bottomButtons);
     }
 
-    showRegistrarSalida(contentDiv) {
+    showRegistrarSalidaVehiculo(contentDiv) {
         contentDiv.innerHTML = "";
 
         var formDiv = document.createElement("div");

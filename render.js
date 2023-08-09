@@ -1,6 +1,8 @@
 const user = new User();
 const inicio = new Inicio();
 const registrar = new Registrar();
+const persona = new Persona();
+const vehiculo = new Vehículo();
 const loginForm = document.getElementById("loginForm");
 
 loginForm.addEventListener('submit', (event) => {

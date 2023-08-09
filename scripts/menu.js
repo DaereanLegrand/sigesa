@@ -142,7 +142,7 @@ class Menu {
                             lastClickedU.style.boxShadow = "0 4px 0 #8a8d8f";
                         }
 
-                        registrar.showRegistrarIngreso(contentDisp);
+                        registrar.showRegistrarIngresoPersonas(contentDisp);
                         item.style.boxShadow = "0 4px 0 #174A3B";
 
                         lastClickedU = item;
@@ -154,7 +154,7 @@ class Menu {
                             lastClickedU.style.boxShadow = "0 4px 0 #8a8d8f";
                         }
 
-                        registrar.showRegistrarSalida(contentDisp);
+                        registrar.showRegistrarSalidaVehiculo(contentDisp);
                         item.style.boxShadow = "0 4px 0 #174A3B";
 
                         lastClickedU = item;
