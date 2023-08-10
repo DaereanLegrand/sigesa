@@ -243,6 +243,19 @@ body {
     height: fit-content;
     margin-top: 3vh;
 }
+.button-exit {
+    background-color: #4d5d53;
+    color: #ffffff;
+    padding: 1px 1px;
+    font-size: 1vh;
+    font-weight: bolder;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    border-radius: 5px;
+    cursor: pointer;
+    align-content: center;
+    height: 5vh 3vh;
+
+}
 
 .tabla-div,
 .form-div {
@@ -320,7 +333,11 @@ body {
     background-color: #102d23;
     height: 4vh;
 }
-
+#tabla-personal tbody{
+    color: black;
+    background-color: #bdbdbdcc;
+    height: 4vh;
+}
 .bottom-buttons-div {
     display: flex;
     justify-content: space-between;

@@ -542,7 +542,149 @@ class Registrar {
 
         contentDiv.appendChild(bottomButtons);
     }
+    
+    async createTablaPersonalsinSalida(){
 
+        
+        /*const data = [
+            { dni: "12345678", grado: "Capitán", nombre: "Juan Pérez", horaEntrada: "08:00 AM" },
+            { dni: "87654321", grado: "Teniente", nombre: "María López", horaEntrada: "09:30 AM" },
+
+        ];*/
+
+        async function obtenerDatos() {
+            try {
+                const response = await fetch("https://localhost:8080/obtenerPersona", {
+                    method: "GET"
+                });
+                const data = await response.json();
+                return data; // Retorna el array de registros desde la base de datos
+            } catch (error) {
+                console.error("Error obteniendo los datos:", error);
+                return []; // Retorna un array vacío en caso de error
+            }
+        }
+
+        const headers = [
+            "N°",
+            "DNI", 
+            "Grado",
+            "Apellidos y Nombres",
+            "Hora de Entrada",
+            "Registrar Salida",
+        ];
+
+        var tablaDiv = document.createElement("div");
+        tablaDiv.className = "tabla-div";
+        var tablaPersonal = document.createElement("table");
+        tablaPersonal.id = "tabla-personal";
+        var headersTablaPersonal = document.createElement("thead");
+        var tbody = document.createElement("tbody");
+
+        var num = 0;
+        headers.map((header) => {
+            var head = document.createElement("th");
+            head.innerText = header;
+
+            headersTablaPersonal.appendChild(head);
+
+            switch (num) {
+                case 0:
+                    head.style.width = "3vw";
+                    break;
+                case 1:
+                    head.style.width = "8vw";
+                    break;
+                case 2:
+                    head.style.width = "8vw";
+                    break;
+                case 3:
+                    head.style.width = "20vw";
+                    break;
+                case 4:
+                    head.style.width = "8vw";
+                    break;
+                case 6: 
+                    head.style.width = "2vw";
+            }
+            num++;
+        });
+
+        tablaPersonal.appendChild(headersTablaPersonal);
+        async function llenarTabla() {
+            const data = await obtenerDatos();
+            data.forEach((registro, index) => {
+                var row = document.createElement("tr");
+                var cellNumber = document.createElement("td");
+                cellNumber.innerText = index + 1;
+            
+                var cellDNI = document.createElement("td");
+                cellDNI.innerText = registro.dni;
+            
+                var cellGrado = document.createElement("td");
+                cellGrado.innerText = registro.grado;
+            
+                var cellNombre = document.createElement("td");
+                cellNombre.innerText = registro.nombre;
+            
+                var cellHoraEntrada = document.createElement("td");
+                cellHoraEntrada.innerText = registro.horaEntrada;
+            
+                var cellRegistrarSalida = document.createElement("td");
+                var botonRegistrarSalida = document.createElement("button");
+                botonRegistrarSalida.innerText = "Registrar Salida";
+                botonRegistrarSalida.className = "button-exit";
+
+                botonRegistrarSalida.addEventListener("click", () => {
+                    this.registrarSalidadePersona();
+                    console.log("Registrando salida para el registro con DNI: " + registro.dni);
+                    tablaPersonal.removeChild(row);
+                });
+            
+                cellRegistrarSalida.appendChild(botonRegistrarSalida);
+                row.appendChild(cellNumber);
+                row.appendChild(cellDNI);
+                row.appendChild(cellGrado);
+                row.appendChild(cellNombre);
+                row.appendChild(cellHoraEntrada);
+                row.appendChild(cellRegistrarSalida);
+            
+                tbody.appendChild(row);
+            });
+        
+        tablaPersonal.appendChild(tbody);
+
+        tablaDiv.appendChild(tablaPersonal);
+        }
+        llenarTabla();
+        return tablaDiv;
+
+    }
+    registrarSalidadePersona(event){
+
+    }
+    showRegistrarSalidaPersona(contentDiv){
+        contentDiv.innerHTML = ""
+
+        var formDiv = document.createElement("div");
+        formDiv.className = "form-div";
+
+        var btnSubmit = document.createElement("button");
+        btnSubmit.className = "action-button";
+        btnSubmit.innerText = "Registrar ingreso";
+        btnSubmit.addEventListener("click", (event) => {
+            // this.registrarIngresoPersona(event);
+        });
+        contentDiv.appendChild(ftopBar());
+        contentDiv.appendChild(
+            finfoDiv(
+                "Registrar salida",
+                "Seleccione una de las entradas para registrar una salida."
+            )
+        );
+        contentDiv.appendChild(formDiv);
+        contentDiv.appendChild(this.createTablaPersonalsinSalida());
+    }
     showRegistrarSalidaVehiculo(contentDiv) {
         contentDiv.innerHTML = "";
 
@@ -551,6 +693,13 @@ class Registrar {
 
         var formRegistro = document.createElement("form");
         formRegistro.className = "form-registro";
+
+        var btnSubmit = document.createElement("button");
+        btnSubmit.className = "registrar-submit";
+        btnSubmit.innerText = "Registrar ingreso";
+        btnSubmit.addEventListener("click", (event) => {
+            // this.registrarIngresoPersona(event);
+        });
 
         formDiv.appendChild(formRegistro);
         contentDiv.appendChild(ftopBar());
@@ -561,6 +710,7 @@ class Registrar {
             )
         );
         contentDiv.appendChild(formDiv);
+        contentDiv.appendChild(this.createTablaPersonalsinSalida());
     }
     async registrarIngresoPersona(event){
         event.preventDefault();
