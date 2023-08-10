@@ -18,12 +18,17 @@ class Barcode {
             "dni-persona",
             "form-inp",
             "8",
-            true
+            false 
         );
 
         var dniBtn = document.createElement("button");
         dniBtn.className = "action-button";
         dniBtn.innerText = "Generar";
+
+        dniBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.api.showBarcode(document.getElementById("dni-persona").value);
+        });
 
         divDni.appendChild(dniBtn);
 
@@ -37,12 +42,17 @@ class Barcode {
             "placa-vehiculo",
             "form-inp",
             "7",
-            true
+            false
         );
 
         var placaBtn = document.createElement("button");
         placaBtn.className = "action-button";
         placaBtn.innerText = "Generar";
+
+        placaBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.api.showBarcode(document.getElementById("placa-vehiculo").value);
+        })
 
         divPlaca.appendChild(placaBtn);
 
@@ -61,7 +71,7 @@ class Barcode {
             "dni-papeleta",
             "form-inp",
             "8",
-            true
+            false 
         );
 
         const divPlacaPapeleta = createInputField(
@@ -70,12 +80,17 @@ class Barcode {
             "placa-papeleta",
             "form-inp",
             "7",
-            true
+            false
         );
 
         var papeletaBtn = document.createElement("button");
         papeletaBtn.className = "action-button";
         papeletaBtn.innerText = "Generar";
+
+        papeletaBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.api.showBarcode(document.getElementById("dni-papeleta").value + " " + document.getElementById("placa-papeleta").value);
+        })
 
         divInpsPapeleta.appendChild(divDniPapeleta);
         divInpsPapeleta.appendChild(divPlacaPapeleta);

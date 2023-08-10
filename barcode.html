@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Hello World!</title>
+    </head>
+    <body>
+        <br /><br /><img id="myimg" />
+        <pre id="output"></pre>
+    </body>
+
+    <script>
+        var bwipjs = require("bwip-js");
+
+        function createBarcode(data) {
+            console.log("NIGGER");
+            bwipjs.toBuffer(
+                { bcid: "code39", text: data },
+                function (err, png) {
+                    if (err) {
+                        document.getElementById("output").textContent = err;
+                    } else {
+                        document.getElementById("myimg").src =
+                            "data:image/png;base64," + png.toString("base64");
+                    }
+                }
+            );
+        }
+    </script>
+</html>
