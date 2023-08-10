@@ -21,5 +21,9 @@
   "homepage": "https://github.com/DaereanLegrand/sigesa#readme",
   "devDependencies": {
     "electron": "^25.4.0"
+  },
+  "dependencies": {
+    "bwip-js": "^4.0.0",
+    "jsbarcode": "^3.11.5"
   }
 }
