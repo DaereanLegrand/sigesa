@@ -286,7 +286,8 @@ body {
     font-size: larger;
 }
 
-.form-registro div input, .form-registro div textarea {
+.form-registro div input,
+.form-registro div textarea {
     padding: 1px 2px;
     width: 25vw;
     height: 2.5vh;
@@ -298,13 +299,15 @@ body {
     font-size: medium;
 }
 
+.tabla-div {
+    overflow: auto;
+    width: auto;
+}
+
 #tabla-personal {
     width: 90%;
     align-self: center;
     border-collapse: collapse;
-}
-
-#tabla-personal th {
     font-family: ibm-plex-semi-bold;
 }
 
@@ -321,9 +324,34 @@ body {
     height: 4vh;
 }
 
+#tabla-personal tbody {
+    background-color: rgba(255, 255, 255, 0.5);
+    color: black;
+}
+
+#tabla-personal tr:nth-child(even) {
+    background-color: rgba(242, 242, 242, 0.5);
+}
+
 .bottom-buttons-div {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 3vh;
+}
+
+.subtitle {
+    font-family: noto-sans;
+    color: white;
+    align-self: flex-start;
+}
+
+.papeleta-div {
+    margin: 0px;
+}
+
+.papeleta-inps-div {
+    display: flex;
+    flex-direction: column;
+    margin: 0px;
 }

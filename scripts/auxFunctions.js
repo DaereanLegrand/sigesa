@@ -202,29 +202,29 @@ function createTextArea(
 
     return containerDiv;
 }
+
 function obtenerDiaDeGuardia() {
     const now = new Date();
-    const startOfDay = new Date(now);
-    startOfDay.setHours(0, 0, 0, 0);
+    const intervalStart = new Date();
+    const intervalEnd = new Date();
 
-    const endOfDay = new Date(now);
-    endOfDay.setHours(23, 59, 59, 999);
+    intervalStart.setHours(3, 0, 0, 0);
+    intervalEnd.setHours(3, 0, 0, 0);
 
-    const startOfPreviousDay = new Date(startOfDay);
-    startOfPreviousDay.setDate(startOfDay.getDate() - 1);
-
-    const intervalStart = new Date(startOfPreviousDay);
-    intervalStart.setHours(8, 0, 0, 0);
-
-    const intervalEnd = new Date(startOfDay);
-    intervalEnd.setHours(8, 0, 0, 0);
-    if (now.getHours() === 0) {
+    if (now.getHours() < 8) {
+        intervalStart.setDate(intervalStart.getDate() - 1);
+    } else {
         intervalEnd.setDate(intervalEnd.getDate() + 1);
     }
 
-    const formattedIntervalStart = intervalStart.toISOString().replace("T", " ").slice(0, -5);
-    const formattedIntervalEnd = intervalEnd.toISOString().replace("T", " ").slice(0, -5);
+    const formattedIntervalStart = intervalStart
+        .toISOString()
+        .replace("T", " ")
+        .slice(0, -5);
+    const formattedIntervalEnd = intervalEnd
+        .toISOString()
+        .replace("T", " ")
+        .slice(0, -5);
 
     return `[${formattedIntervalStart}, ${formattedIntervalEnd})`;
 }
-

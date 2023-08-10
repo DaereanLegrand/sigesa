@@ -562,6 +562,7 @@ class Registrar {
         );
         contentDiv.appendChild(formDiv);
     }
+
     async registrarIngresoPersona(event){
         event.preventDefault();
 
@@ -603,7 +604,7 @@ class Registrar {
                     apellidos: document.getElementById("apellidos").value,
                     nombres: document.getElementById("nombres").value,
                     motivo: document.getElementById("motivo").value,
-                    personavisitada: document.getElementById("persona-visitada").value,
+                    aquienvisita: document.getElementById("persona-visitada").value,
                     dia_guardia: obtenerDiaDeGuardia(),
                 }),
             })

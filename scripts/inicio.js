@@ -15,6 +15,7 @@ class Inicio {
         var tablaPersonal = document.createElement("table");
         tablaPersonal.id = "tabla-personal";
         var headersTablaPersonal = document.createElement("thead");
+        var contentTablaPersonal = document.createElement("tbody");
 
         var num = 0;
         headers.map((header) => {
@@ -52,7 +53,10 @@ class Inicio {
             num++;
         });
 
+        persona.getEnsaPersona(contentTablaPersonal);
+
         tablaPersonal.appendChild(headersTablaPersonal);
+        tablaPersonal.appendChild(contentTablaPersonal);
         tablaDiv.appendChild(tablaPersonal);
         return tablaDiv;
     }
