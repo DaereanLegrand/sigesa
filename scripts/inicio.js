@@ -75,16 +75,17 @@ class Inicio {
 
         var tablaDiv = document.createElement("div");
         tablaDiv.className = "tabla-div";
-        var tablaPersonal = document.createElement("table");
-        tablaPersonal.id = "tabla-personal";
-        var headersTablaPersonal = document.createElement("thead");
+        var tablaVehiculos = document.createElement("table");
+        tablaVehiculos.id = "tabla-personal";
+        var headersTablaVehiculos = document.createElement("thead");
+        var contentTablaVehiculos = document.createElement("tbody");
 
         var num = 0;
         headers.map((header) => {
             var head = document.createElement("th");
             head.innerText = header;
 
-            headersTablaPersonal.appendChild(head);
+            headersTablaVehiculos.appendChild(head);
 
             switch (num) {
                 case 0:
@@ -115,8 +116,11 @@ class Inicio {
             num++;
         });
 
-        tablaPersonal.appendChild(headersTablaPersonal);
-        tablaDiv.appendChild(tablaPersonal);
+        vehiculo.getEnsaVehiculos(contentTablaVehiculos);
+
+        tablaVehiculos.appendChild(headersTablaVehiculos);
+        tablaVehiculos.appendChild(contentTablaVehiculos);
+        tablaDiv.appendChild(tablaVehiculos);
         return tablaDiv;
     }
 
@@ -131,8 +135,8 @@ class Inicio {
         var filterBtn = document.createElement("button");
         filterBtn.className = "action-button";
         filterBtn.innerText = "Filtros";
-        const btnGenerarReporte = document.getElementById('btnGenerarReporte');
-        btnGenerarReporte.addEventListener('click', generarEImprimirReporte);
+        // const btnGenerarReporte = document.getElementById('btnGenerarReporte');
+        // btnGenerarReporte.addEventListener('click', generarEImprimirReporte);
     
     
 
