@@ -40,7 +40,7 @@ class User {
         
         const entradaCIP = document.createElement("input");
         entradaCIP.type = "text";
-        entradaCIP.id = "user";
+        entradaCIP.id = "cip";
         entradaCIP.className = "login-input";
         entradaCIP.placeholder = "CIP";
 
@@ -77,10 +77,35 @@ class User {
         index.appendChild(formularioRegistrar);
         index.appendChild(btnVolver);
 
-        btnCrearUsuario.addEventListener('click', () =>
+        btnCrearUsuario.addEventListener('click', (event) =>
         {
+            event.preventDefault();
             if(password1.value == passwordVerificar.value){
-
+                console.log("asada");
+                fetch("https://localhost:8080/registrarUsuario", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        cip: document.getElementById("cip").value,
+                        contraseña: document.getElementById("pass").value,
+                    }),    
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                console.log(data);
+                if (data != null) {
+                    if (data.success == true) {
+                        window.api.dialog(
+                            "Exito",
+                            "La persona fue registrada correctamente."
+                            );
+                    } else if (data.success == false) {
+                        window.api.dialog(
+                            "Error",
+                            `Hubo un error al registrar a dicha persona. ERROR: ${data.error}`
+                            );
+                        }
+                    }
+                });
             }else{
                 alert("Las contraseñas no coinciden");
             }

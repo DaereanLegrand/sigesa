@@ -1085,7 +1085,7 @@ class Registrar {
     }
     async insertarPGuardia(event){
         event.preventDefault();
-        console.log("c");
+        console.log();
 
         if (document.getElementById("dni-ofGuardia").disabled == false) {
             try {
@@ -1108,9 +1108,13 @@ class Registrar {
                     if (data.success == true) {
                         window.api.dialog(
                             "Exito",
-                            "La persona fue registrada correctamente."
+                            "Los oficiales fueron registrados con exito."
                         );
-                        document.getElementById("dni-ofGuardia","dni-adjuntoOfGuardia").disabled = true;
+
+                        this.guardia = data.id_personal_guardia;
+                        
+                        document.getElementById("dni-ofGuardia").disabled = true;
+                        document.getElementById("dni-adjuntoOfGuardia").disabled = true;
                     } else if (data.success == false) {
                         window.api.dialog(
                             "Error",
@@ -1122,6 +1126,44 @@ class Registrar {
                 console.error("Error:", error);
             }
         }
+    }
+    async insertarTGuardia(event){
+        console.log();
+
+        if (document.getElementById("dni-tropa").disabled == false) {
+            try {
+            console.log("b");
+             const response = await fetch(
+                    "https://localhost:8080/registrarTGuardia",
+                    {
+                        method: "POST",
+                        body: JSON.stringify({
+                            dniTropa: document.getElementById("dni-tropa").value,
+                            idGuardia: this.guardia,
+                        }),
+                    }   
+                );
+
+                const data = await response.json();
+
+                if (data != null) {
+                    if (data.success == true) {
+                        window.api.dialog(
+                            "Exito",
+                            "La persona fue registrada correctamente."
+                        );
+                        
+                    } else if (data.success == false) {
+                        window.api.dialog(
+                            "Error",
+                            `Hubo un error al registrar a esta persona. ERROR: ${data.error}`
+                        );
+                    }
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        }  
     }
     personaldeGuardia(contentDiv){
         contentDiv.innerHTML = ""
@@ -1193,20 +1235,19 @@ class Registrar {
         
         tropaBtn.addEventListener('click', (event) => {
             event.preventDefault();
-            if(document.getElementById("dni-tropa").value = true){
-                window.api.dialog(
-                    "Exito",
-                    "La persona fue registrada correctamente.",
-                    
-                );
-                value.disabled= true;
-            }else{
-                window.api.dialog(
-                    "Error",
-                    `Hubo un error al registrar a dicha persona. ERROR: ${data.error}`
-                );
-            }
-            
+                if(this.guardia != null){
+                    this.insertarTGuardia();
+                    window.api.dialog(
+                        "Exito",
+                        "La persona fue registrada correctamente.",
+                        
+                    );
+                }else{
+                    window.api.dialog(
+                        "Error",
+                        `Registra al Oficial de Guardia y su adjunto primero.`
+                    );
+                }
         });
         divTropa.appendChild(tropaBtn);
         
@@ -1231,7 +1272,7 @@ class Registrar {
         formRegistro.appendChild(divTropa);
 
 
-
         contentDiv.appendChild(formDiv); 
     }
+
 }
