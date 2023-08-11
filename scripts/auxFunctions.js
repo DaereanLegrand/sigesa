@@ -228,3 +228,4 @@ function obtenerDiaDeGuardia() {
 
     return `[${formattedIntervalStart}, ${formattedIntervalEnd})`;
 }
+

@@ -540,7 +540,7 @@ class Registrar {
 
         contentDiv.appendChild(bottomButtons);
     }
-
+    
     createTablaPersonalsinSalida() {
         const data = [
             { dni: "12345678", grado: "Capitán", nombre: "Juan Pérez", horaEntrada: "08:00 AM" },
@@ -568,7 +568,7 @@ class Registrar {
 
         const headers = [
             "N°",
-            "DNI",
+            "DNI", 
             "Grado",
             "Apellidos y Nombres",
             "Hora de Entrada",
@@ -605,7 +605,7 @@ class Registrar {
                 case 4:
                     head.style.width = "8vw";
                     break;
-                case 6:
+                case 6: 
                     head.style.width = "2vw";
             }
             num++;
@@ -645,6 +645,7 @@ class Registrar {
                     tablaPersonal.removeChild(row);
                 });
 
+           
                 cellRegistrarSalida.appendChild(botonRegistrarSalida);
                 row.appendChild(cellNumber);
                 row.appendChild(cellDNI);
@@ -664,8 +665,30 @@ class Registrar {
         return tablaDiv;
     }
 
-    showRegistrarSalida(contentDiv) {
-        /*
+    showRegistrarSalidaPersona(contentDiv){
+        contentDiv.innerHTML = ""
+
+        var formDiv = document.createElement("div");
+        formDiv.className = "form-div";
+
+        var btnSubmit = document.createElement("button");
+        btnSubmit.className = "action-button";
+        btnSubmit.innerText = "Registrar ingreso";
+        btnSubmit.addEventListener("click", (event) => {
+            // this.registrarIngresoPersona(event);
+        });
+        contentDiv.appendChild(ftopBar());
+        contentDiv.appendChild(
+            finfoDiv(
+                "Registrar salida",
+                "Seleccione una de las entradas para registrar una salida."
+            )
+        );
+        contentDiv.appendChild(formDiv);
+        contentDiv.appendChild(this.createTablaPersonalsinSalida());
+    }
+
+    showRegistrarSalidaVehiculo(contentDiv) {
         contentDiv.innerHTML = "";
 
         var formDiv = document.createElement("div");
@@ -673,6 +696,13 @@ class Registrar {
 
         var formRegistro = document.createElement("form");
         formRegistro.className = "form-registro";
+
+        var btnSubmit = document.createElement("button");
+        btnSubmit.className = "registrar-submit";
+        btnSubmit.innerText = "Registrar ingreso";
+        btnSubmit.addEventListener("click", (event) => {
+            // this.registrarIngresoPersona(event);
+        });
 
         formDiv.appendChild(formRegistro);
         contentDiv.appendChild(ftopBar());
@@ -683,7 +713,6 @@ class Registrar {
             )
         );
         contentDiv.appendChild(formDiv);
-        */
         contentDiv.innerHTML = "";
 
         var formDiv = document.createElement("div");

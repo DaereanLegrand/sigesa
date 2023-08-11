@@ -168,7 +168,7 @@ class Menu {
                             lastClickedU.style.boxShadow = "0 4px 0 #8a8d8f";
                         }
 
-                        registrar.showRegistrarSalida(contentDisp);
+                        registrar.showRegistrarSalidaPersona(contentDisp);
                         item.style.boxShadow = "0 4px 0 #174A3B";
 
                         lastClickedU = item;
