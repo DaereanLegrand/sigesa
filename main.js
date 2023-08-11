@@ -3,6 +3,7 @@ var jsbarcode = require("jsbarcode");
 const path = require("path");
 const bwipjs = require("bwip-js");
 
+
 let win;
 
 function createDialogInfo(event, title, message) {

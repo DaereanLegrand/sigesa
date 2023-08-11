@@ -174,6 +174,18 @@ class Menu {
                         lastClickedU = item;
                     });
                     break;
+                case "Personal de guardia":
+                    btn1.addEventListener("click", () => {
+                        if (lastClickedU != null) {
+                            lastClickedU.style.boxShadow = "0 4px 0 #8a8d8f";
+                        }
+
+                        registrar.personaldeGuardia(contentDisp);
+                        item.style.boxShadow = "0 4px 0 #174A3B";
+
+                        lastClickedU = item;
+                    });
+                    break;
             }
 
             item.appendChild(btn1);

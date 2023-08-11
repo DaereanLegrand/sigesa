@@ -740,7 +740,7 @@ class Registrar {
 
         if (document.getElementById("apellidos").readOnly == false) {
             try {
-                const response = await fetch(
+             const response = await fetch(
                     "https://localhost:8080/registrarPersona",
                     {
                         method: "POST",
@@ -750,7 +750,7 @@ class Registrar {
                                 document.getElementById("apellidos").value,
                             nombres: document.getElementById("nombres").value,
                         }),
-                    }
+                    }   
                 );
 
                 const data = await response.json();
@@ -783,5 +783,156 @@ class Registrar {
                 dia_guardia: obtenerDiaDeGuardia(),
             }),
         });
+    }
+    async insertarPGuardia(event){
+        event.preventDefault();
+        console.log("c");
+
+        if (document.getElementById("dni-ofGuardia").disabled == false) {
+            try {
+            console.log("b");
+             const response = await fetch(
+                    "https://localhost:8080/registrarPGuardia",
+                    {
+                        method: "POST",
+                        body: JSON.stringify({
+                            dniOG: document.getElementById("dni-ofGuardia").value,
+                            dniOD: document.getElementById("dni-adjuntoOfGuardia").value,
+                            dia_guardia: obtenerDiaDeGuardia(),
+                        }),
+                    }   
+                );
+
+                const data = await response.json();
+
+                if (data != null) {
+                    if (data.success == true) {
+                        window.api.dialog(
+                            "Exito",
+                            "La persona fue registrada correctamente."
+                        );
+                        document.getElementById("dni-ofGuardia","dni-adjuntoOfGuardia").disabled = true;
+                    } else if (data.success == false) {
+                        window.api.dialog(
+                            "Error",
+                            `Hubo un error al registrar a dicha persona. ERROR: ${data.error}`
+                        );
+                    }
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        }
+    }
+    personaldeGuardia(contentDiv){
+        contentDiv.innerHTML = ""
+
+        var formDiv = document.createElement("div");
+        formDiv.className = "form-div";
+
+        var formRegistro = document.createElement("form");
+        formRegistro.className = "form-registro";
+        /* ******************************************************* */
+        const subtitleOG = document.createElement("h2");
+        subtitleOG.className = "subtitle";
+        subtitleOG.innerText = "Oficial de Guardia";
+
+        const divOG = createInputField(
+            "DNI: ",
+            "number",
+            "dni-ofGuardia",
+            "form-inp",
+            "8",
+            false 
+        );
+        
+
+         /* ******************************************************* */
+
+        const subtitleAOG = document.createElement("h2");
+        subtitleAOG.className = "subtitle";
+        subtitleAOG.innerText = "Adjunto del Oficial de guardia";
+
+        const divAOG = createInputField(
+            "DNI: ",
+            "number",
+            "dni-adjuntoOfGuardia",
+            "form-inp",
+            "8",
+            false 
+        );
+
+        var ooBtn = document.createElement("button");
+        ooBtn.className = "action-button";
+        ooBtn.innerText = "Registrar";
+
+        
+        ooBtn.addEventListener('click', (event) => {
+            console.log("a");    
+            this.insertarPGuardia(event);
+        });
+        
+        /* ******************************************************* */
+
+        const subtitleTropa = document.createElement("h2");
+        subtitleTropa.className = "subtitle";
+        subtitleTropa.innerText = "Registrar Personal de Tropa";
+
+        const divTropa = createInputField(
+            "DNI: ",
+            "number",
+            "dni-tropa",
+            "form-inp",
+            "8",
+            false 
+        );
+
+        var tropaBtn = document.createElement("button");
+        tropaBtn.className = "action-button";
+        tropaBtn.innerText = "Registrar";
+
+        
+        tropaBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            if(document.getElementById("dni-tropa").value = true){
+                window.api.dialog(
+                    "Exito",
+                    "La persona fue registrada correctamente.",
+                    
+                );
+                value.disabled= true;
+            }else{
+                window.api.dialog(
+                    "Error",
+                    `Hubo un error al registrar a dicha persona. ERROR: ${data.error}`
+                );
+            }
+            
+        });
+        divTropa.appendChild(tropaBtn);
+        
+        /* ******************************************************* */
+        
+
+        formDiv.appendChild(formRegistro);
+        contentDiv.appendChild(ftopBar());
+        contentDiv.appendChild(
+            finfoDiv(
+                "Personal de guardia",
+                "Registre a todo el personal que se encuentra de servicio."
+            )
+        );
+
+        formRegistro.appendChild(subtitleOG);
+        formRegistro.appendChild(divOG);
+        formRegistro.appendChild(subtitleAOG);
+        formRegistro.appendChild(divAOG);
+        formRegistro.appendChild(ooBtn);
+        formRegistro.appendChild(subtitleTropa);
+        formRegistro.appendChild(divTropa);
+
+
+
+        contentDiv.appendChild(formDiv); 
     }
 }

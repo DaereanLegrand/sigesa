@@ -60,7 +60,7 @@ class Inicio {
         tablaDiv.appendChild(tablaPersonal);
         return tablaDiv;
     }
-
+        
     createTablaVehiculos() {
         const headers = [
             "N°",
@@ -131,6 +131,10 @@ class Inicio {
         var filterBtn = document.createElement("button");
         filterBtn.className = "action-button";
         filterBtn.innerText = "Filtros";
+        const btnGenerarReporte = document.getElementById('btnGenerarReporte');
+        btnGenerarReporte.addEventListener('click', generarEImprimirReporte);
+    
+    
 
         infoDiv.appendChild(filterBtn);
 
