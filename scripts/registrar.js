@@ -685,7 +685,7 @@ class Registrar {
             )
         );
         contentDiv.appendChild(formDiv);
-        contentDiv.appendChild(this.createTablaPersonalsinSalida());
+        formDiv.appendChild(this.createTablaPersonalsinSalida());
     }
 
     showRegistrarSalidaVehiculo(contentDiv) {
