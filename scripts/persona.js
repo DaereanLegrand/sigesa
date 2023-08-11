@@ -53,11 +53,15 @@ class Persona {
                             const motivo = document.createElement('td');
                             motivo.innerText = row.motivo;
                             const ingreso = document.createElement('td');
-                            const ingDate = new Date(row.timestampentrada);
-                            ingreso.innerText = ingDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                            if (row.timestampentrada != null) {
+                                const ingDate = new Date(row.timestampentrada);
+                                ingreso.innerText = ingDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                            }
                             const salida = document.createElement('td');
-                            const salDate = new Date(row.timestampsalida);
-                            salida.innerText = salDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                            if (row.timestampsalida != null) {
+                                const salDate = new Date(row.timestampsalida);
+                                salida.innerText = salDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                            }
 
                             mtr.appendChild(n);
                             mtr.appendChild(tipo);
