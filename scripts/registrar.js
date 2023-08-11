@@ -389,7 +389,7 @@ class Registrar {
         btnSubmit.className = "registrar-submit";
         btnSubmit.innerText = "Registrar ingreso";
         btnSubmit.addEventListener("click", (event) => {
-            // this.registrarVehiculo(event);
+            this.registrarIngresoVehiculo(event);
         });
 
         formRegistro.appendChild(colorDropdownWithLabel);
@@ -540,35 +540,38 @@ class Registrar {
 
         contentDiv.appendChild(bottomButtons);
     }
-    
-    createTablaPersonalsinSalida() {
-        const data = [
-            { dni: "12345678", grado: "Capitán", nombre: "Juan Pérez", horaEntrada: "08:00 AM" },
-            { dni: "87654321", grado: "Teniente", nombre: "María López", horaEntrada: "09:30 AM" },
 
-        ];
-
-        async function obtenerDatos() {
-            try {
-                /*
-                const response = await fetch(
-                    "https://localhost:8080/obtenerPersona",
-                    {
-                        method: "GET",
+    registrarSalidaPersona(id, row) {
+        fetch("https://localhost:8080/registrarSalidaPersona", {
+            method: "POST",
+            body: JSON.stringify({
+                id: id,
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                if (data != null) {
+                    if (data.success == true) {
+                        row.parentNode.removeChild(row);
+                        window.api.dialog(
+                            "Exito",
+                            "Se registro la salida de manera exitosa."
+                        );
+                    } else if (data.success == false) {
+                        window.api.dialog(
+                            "Error",
+                            `Hubo un error al registrar la salida de dicha persona. ERROR: ${data.error}`
+                        );
                     }
-                );
-                const data = await response.json();
-                return data; // Retorna el array de registros desde la base de datos
-                */
-            } catch (error) {
-                console.error("Error obteniendo los datos:", error);
-                return []; // Retorna un array vacío en caso de error
-            }
-        }
+                }
+            });
+    }
 
+    createTablaPersonalsinSalida() {
         const headers = [
             "N°",
-            "DNI", 
+            "DNI",
             "Grado",
             "Apellidos y Nombres",
             "Hora de Entrada",
@@ -605,134 +608,296 @@ class Registrar {
                 case 4:
                     head.style.width = "8vw";
                     break;
-                case 6: 
+                case 6:
                     head.style.width = "2vw";
             }
             num++;
         });
 
         tablaPersonal.appendChild(headersTablaPersonal);
-        async function llenarTabla() {
-           //const data = await obtenerDatos();
-           data.forEach((registro, index) => {
-                var row = document.createElement("tr");
-                var cellNumber = document.createElement("td");
-                cellNumber.innerText = index + 1;
 
-                var cellDNI = document.createElement("td");
-                cellDNI.innerText = registro.dni;
+        try {
+            fetch("https://localhost:8080/obtenerSoloEntradasPersona")
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success == true) {
+                        let i = 0;
+                        data.data.forEach((registro) => {
+                            var row = document.createElement("tr");
+                            var cellNumber = document.createElement("td");
+                            cellNumber.innerText = i + 1;
 
-                var cellGrado = document.createElement("td");
-                cellGrado.innerText = registro.grado;
+                            var cellDNI = document.createElement("td");
+                            cellDNI.innerText = registro.dni;
 
-                var cellNombre = document.createElement("td");
-                cellNombre.innerText = registro.nombre;
+                            var cellGrado = document.createElement("td");
+                            cellGrado.innerText = registro.rango;
 
-                var cellHoraEntrada = document.createElement("td");
-                cellHoraEntrada.innerText = registro.horaEntrada;
+                            var cellNombre = document.createElement("td");
+                            cellNombre.innerText =
+                                registro.apellidos + " " + registro.nombres;
 
-                var cellRegistrarSalida = document.createElement("td");
-                var botonRegistrarSalida = document.createElement("button");
-                botonRegistrarSalida.innerText = "Registrar Salida";
-                botonRegistrarSalida.className = "button-exit";
+                            var cellHoraEntrada = document.createElement("td");
+                            if (registro.timestampentrada != null) {
+                                const ingDate = new Date(
+                                    registro.timestampentrada
+                                );
+                                cellHoraEntrada.innerText =
+                                    ingDate.toLocaleTimeString("en-US", {
+                                        hour: "2-digit",
+                                        minute: "2-digit",
+                                    });
+                            }
 
-                botonRegistrarSalida.addEventListener("click", () => {
-                    //this.registrarSalidadePersona();
-                    console.log(
-                        "Registrando salida para el registro con DNI: " +
-                            registro.dni
-                    );
-                    tablaPersonal.removeChild(row);
+                            var cellRegistrarSalida =
+                                document.createElement("td");
+                            var botonRegistrarSalida =
+                                document.createElement("button");
+                            botonRegistrarSalida.innerText = "Registrar Salida";
+                            botonRegistrarSalida.className = "button-exit";
+
+                            botonRegistrarSalida.addEventListener(
+                                "click",
+                                (event) => {
+                                    event.preventDefault();
+                                    this.registrarSalidaPersona(
+                                        registro.id_ensapersona,
+                                        row
+                                    );
+                                }
+                            );
+
+                            cellRegistrarSalida.appendChild(
+                                botonRegistrarSalida
+                            );
+                            row.appendChild(cellNumber);
+                            row.appendChild(cellDNI);
+                            row.appendChild(cellGrado);
+                            row.appendChild(cellNombre);
+                            row.appendChild(cellHoraEntrada);
+                            row.appendChild(cellRegistrarSalida);
+
+                            tbody.appendChild(row);
+
+                            i++;
+                        });
+                    }
                 });
+        } catch (error) {}
 
-           
-                cellRegistrarSalida.appendChild(botonRegistrarSalida);
-                row.appendChild(cellNumber);
-                row.appendChild(cellDNI);
-                row.appendChild(cellGrado);
-                row.appendChild(cellNombre);
-                row.appendChild(cellHoraEntrada);
-                row.appendChild(cellRegistrarSalida);
+        tablaPersonal.appendChild(tbody);
+        tablaDiv.appendChild(tablaPersonal);
 
-                tbody.appendChild(row);
-            });
-
-            tablaPersonal.appendChild(tbody);
-
-            tablaDiv.appendChild(tablaPersonal);
-        }
-        llenarTabla();
         return tablaDiv;
     }
 
-    showRegistrarSalidaPersona(contentDiv){
-        contentDiv.innerHTML = ""
+    registrarSalidaVehiculo(id, row) {
+        fetch("https://localhost:8080/registrarSalidaVehiculo", {
+            method: "POST",
+            body: JSON.stringify({
+                id: id,
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                if (data != null) {
+                    if (data.success == true) {
+                        row.parentNode.removeChild(row);
+                        window.api.dialog(
+                            "Exito",
+                            "Se registro la salida de manera exitosa."
+                        );
+                    } else if (data.success == false) {
+                        window.api.dialog(
+                            "Error",
+                            `Hubo un error al registrar la salida de dicho vehiculo. ERROR: ${data.error}`
+                        );
+                    }
+                }
+            });
+    }
+
+    createTablaVehiculosinSalida() {
+        const headers = [
+            "N°",
+            "DNI",
+            "Placa",
+            "Apellidos y Nombres",
+            "Hora de Entrada",
+            "Registrar Salida",
+        ];
+
+        var tablaDiv = document.createElement("div");
+        tablaDiv.className = "tabla-div";
+        var tablaPersonal = document.createElement("table");
+        tablaPersonal.id = "tabla-personal";
+        var headersTablaPersonal = document.createElement("thead");
+        var tbody = document.createElement("tbody");
+
+        var num = 0;
+        headers.map((header) => {
+            var head = document.createElement("th");
+            head.innerText = header;
+
+            headersTablaPersonal.appendChild(head);
+
+            switch (num) {
+                case 0:
+                    head.style.width = "3vw";
+                    break;
+                case 1:
+                    head.style.width = "8vw";
+                    break;
+                case 2:
+                    head.style.width = "8vw";
+                    break;
+                case 3:
+                    head.style.width = "20vw";
+                    break;
+                case 4:
+                    head.style.width = "8vw";
+                    break;
+                case 5:
+                    head.style.width = "2vw";
+            }
+            num++;
+        });
+
+        tablaPersonal.appendChild(headersTablaPersonal);
+
+        try {
+            fetch("https://localhost:8080/obtenerSoloEntradasVehiculo")
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success == true) {
+                        let i = 0;
+                        data.data.forEach((registro) => {
+                            var row = document.createElement("tr");
+                            var cellNumber = document.createElement("td");
+                            cellNumber.innerText = i + 1;
+
+                            var cellDNI = document.createElement("td");
+                            cellDNI.innerText = registro.dni;
+
+                            var cellGrado = document.createElement("td");
+                            cellGrado.innerText = registro.placa;
+
+                            var cellNombre = document.createElement("td");
+                            cellNombre.innerText =
+                                registro.apellidos + " " + registro.nombres;
+
+                            var cellHoraEntrada = document.createElement("td");
+                            if (registro.timestampentrada != null) {
+                                const ingDate = new Date(
+                                    registro.timestampentrada
+                                );
+                                cellHoraEntrada.innerText =
+                                    ingDate.toLocaleTimeString("en-US", {
+                                        hour: "2-digit",
+                                        minute: "2-digit",
+                                    });
+                            }
+
+                            var cellRegistrarSalida =
+                                document.createElement("td");
+                            var botonRegistrarSalida =
+                                document.createElement("button");
+                            botonRegistrarSalida.innerText = "Registrar Salida";
+                            botonRegistrarSalida.className = "button-exit";
+
+                            botonRegistrarSalida.addEventListener(
+                                "click",
+                                (event) => {
+                                    event.preventDefault();
+                                    this.registrarSalidaVehiculo(
+                                        registro.id_ensavehiculos,
+                                        row
+                                    );
+                                }
+                            );
+
+                            cellRegistrarSalida.appendChild(
+                                botonRegistrarSalida
+                            );
+                            row.appendChild(cellNumber);
+                            row.appendChild(cellDNI);
+                            row.appendChild(cellGrado);
+                            row.appendChild(cellNombre);
+                            row.appendChild(cellHoraEntrada);
+                            row.appendChild(cellRegistrarSalida);
+
+                            tbody.appendChild(row);
+
+                            i++;
+                        });
+                    }
+                });
+        } catch (error) {}
+
+        tablaPersonal.appendChild(tbody);
+        tablaDiv.appendChild(tablaPersonal);
+
+        return tablaDiv;
+    }
+
+    showRegistrarSalidaPersona(contentDiv) {
+        contentDiv.innerHTML = "";
 
         var formDiv = document.createElement("div");
         formDiv.className = "form-div";
 
-        var btnSubmit = document.createElement("button");
-        btnSubmit.className = "action-button";
-        btnSubmit.innerText = "Registrar ingreso";
-        btnSubmit.addEventListener("click", (event) => {
-            // this.registrarIngresoPersona(event);
+        var bottomButtons = document.createElement("div");
+        bottomButtons.className = "bottom-buttons-div";
+        var btnIngVehiculos = document.createElement("button");
+        btnIngVehiculos.innerText = "Salida de Vehículos";
+        btnIngVehiculos.className = "action-button";
+
+        btnIngVehiculos.addEventListener("click", () => {
+            this.showRegistrarSalidaVehiculo(contentDiv);
         });
+
+        bottomButtons.appendChild(btnIngVehiculos);
+
         contentDiv.appendChild(ftopBar());
         contentDiv.appendChild(
             finfoDiv(
                 "Registrar salida",
-                "Seleccione una de las entradas para registrar una salida."
+                "Seleccione una de las entradas para registrar una salida de una persona."
             )
         );
         contentDiv.appendChild(formDiv);
+        contentDiv.appendChild(bottomButtons);
         formDiv.appendChild(this.createTablaPersonalsinSalida());
     }
 
     showRegistrarSalidaVehiculo(contentDiv) {
         contentDiv.innerHTML = "";
-
         var formDiv = document.createElement("div");
         formDiv.className = "form-div";
 
-        var formRegistro = document.createElement("form");
-        formRegistro.className = "form-registro";
+        var bottomButtons = document.createElement("div");
+        bottomButtons.className = "bottom-buttons-div";
+        var btnIngVehiculos = document.createElement("button");
+        btnIngVehiculos.innerText = "Salida de Personas";
+        btnIngVehiculos.className = "action-button";
 
-        var btnSubmit = document.createElement("button");
-        btnSubmit.className = "registrar-submit";
-        btnSubmit.innerText = "Registrar ingreso";
-        btnSubmit.addEventListener("click", (event) => {
-            // this.registrarIngresoPersona(event);
+        btnIngVehiculos.addEventListener("click", () => {
+            this.showRegistrarSalidaPersona(contentDiv);
         });
 
-        formDiv.appendChild(formRegistro);
+        bottomButtons.appendChild(btnIngVehiculos);
+
         contentDiv.appendChild(ftopBar());
         contentDiv.appendChild(
             finfoDiv(
                 "Registrar salida",
-                "Seleccione una de las entradas para registrar una salida."
+                "Seleccione una de las entradas para registrar una salida de un vehiculo."
             )
         );
         contentDiv.appendChild(formDiv);
-        contentDiv.innerHTML = "";
-
-        var formDiv = document.createElement("div");
-        formDiv.className = "form-div";
-
-        var btnSubmit = document.createElement("button");
-        btnSubmit.className = "action-button";
-        btnSubmit.innerText = "Registrar ingreso";
-        btnSubmit.addEventListener("click", (event) => {
-            // this.registrarIngresoPersona(event);
-        });
-        contentDiv.appendChild(ftopBar());
-        contentDiv.appendChild(
-            finfoDiv(
-                "Registrar salida",
-                "Seleccione una de las entradas para registrar una salida."
-            )
-        );
-        contentDiv.appendChild(formDiv);
-        formDiv.appendChild(this.createTablaPersonalsinSalida());
+        contentDiv.appendChild(bottomButtons);
+        formDiv.appendChild(this.createTablaVehiculosinSalida());
     }
 
     async registrarIngresoPersona(event) {
@@ -776,8 +941,142 @@ class Registrar {
             method: "POST",
             body: JSON.stringify({
                 dni: document.getElementById("dni").value,
-                apellidos: document.getElementById("apellidos").value,
-                nombres: document.getElementById("nombres").value,
+                motivo: document.getElementById("motivo").value,
+                aquienvisita: document.getElementById("persona-visitada").value,
+                dia_guardia: obtenerDiaDeGuardia(),
+            }),
+        });
+    }
+
+    async registrarIngresoPersona(event) {
+        event.preventDefault();
+
+        if (document.getElementById("apellidos").disabled == false) {
+            try {
+                const response = await fetch(
+                    "https://localhost:8080/registrarPersona",
+                    {
+                        method: "POST",
+                        body: JSON.stringify({
+                            dni: document.getElementById("dni").value,
+                            apellidos:
+                                document.getElementById("apellidos").value,
+                            nombres: document.getElementById("nombres").value,
+                        }),
+                    }
+                );
+
+                const data = await response.json();
+
+                if (data != null) {
+                    if (data.success == true) {
+                        window.api.dialog(
+                            "Exito",
+                            "La persona fue registrada correctamente."
+                        );
+                    } else if (data.success == false) {
+                        window.api.dialog(
+                            "Error",
+                            `Hubo un error al registrar a dicha persona. ERROR: ${data.error}`
+                        );
+                    }
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        }
+        fetch("https://localhost:8080/registrarIngresoPersona", {
+            method: "POST",
+            body: JSON.stringify({
+                dni: document.getElementById("dni").value,
+                motivo: document.getElementById("motivo").value,
+                aquienvisita: document.getElementById("persona-visitada").value,
+                dia_guardia: obtenerDiaDeGuardia(),
+            }),
+        });
+    }
+
+    async registrarIngresoVehiculo(event) {
+        event.preventDefault();
+
+        if (document.getElementById("apellidos").disabled == false) {
+            try {
+                const response = await fetch(
+                    "https://localhost:8080/registrarPersona",
+                    {
+                        method: "POST",
+                        body: JSON.stringify({
+                            dni: document.getElementById("dni").value,
+                            apellidos:
+                                document.getElementById("apellidos").value,
+                            nombres: document.getElementById("nombres").value,
+                        }),
+                    }
+                );
+
+                const data = await response.json();
+
+                if (data != null) {
+                    if (data.success == true) {
+                        window.api.dialog(
+                            "Exito",
+                            "La persona fue registrada correctamente."
+                        );
+                    } else if (data.success == false) {
+                        window.api.dialog(
+                            "Error",
+                            `Hubo un error al registrar a dicha persona. ERROR: ${data.error}`
+                        );
+                    }
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        }
+
+        if (document.getElementById("color-select").disabled == false) {
+            try {
+                const response = await fetch(
+                    "https://localhost:8080/registrarVehiculo",
+                    {
+                        method: "POST",
+                        body: JSON.stringify({
+                            placa: document.getElementById("placa").value,
+                            color: document.getElementById("color-select")
+                                .value,
+                            marca: document.getElementById("marca-select")
+                                .value,
+                            modelo: document.getElementById("modelo-select")
+                                .value,
+                        }),
+                    }
+                );
+
+                const data = await response.json();
+
+                if (data != null) {
+                    if (data.success == true) {
+                        window.api.dialog(
+                            "Exito",
+                            "El vehículo fue registrado correctamente."
+                        );
+                    } else if (data.success == false) {
+                        window.api.dialog(
+                            "Error",
+                            `Hubo un error al registrar a dicho vehículo. ERROR: ${data.error}`
+                        );
+                    }
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        }
+
+        fetch("https://localhost:8080/registrarIngresoVehiculo", {
+            method: "POST",
+            body: JSON.stringify({
+                dni: document.getElementById("dni").value,
+                placa: document.getElementById("placa").value,
                 motivo: document.getElementById("motivo").value,
                 aquienvisita: document.getElementById("persona-visitada").value,
                 dia_guardia: obtenerDiaDeGuardia(),

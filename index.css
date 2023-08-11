@@ -109,8 +109,8 @@ body {
     height: 4vh;
     background-color: #4d5d53;
     color: #ffffff;
-    padding: 10px 20px;
-    font-size: 16px;
+    padding: 0.5vh 1vh;
+    font-size: 2vh;
     font-weight: bolder;
     font-family: "Helvetica Neue", Arial, sans-serif;
     border: 2px solid #262e29;
@@ -197,6 +197,7 @@ body {
 }
 
 #bienvenida-contenido {
+    font-size: 2.5vh;
     font-family: noto-sans-bold;
 }
 
@@ -213,11 +214,13 @@ body {
 }
 
 .titulo {
+    font-size: 3vh;
     font-family: noto-sans-bold;
     margin-bottom: 0px;
 }
 
 .parrafo {
+    font-size: 1.5vh;
     font-family: noto-sans;
     margin-top: 0px;
 }
@@ -227,7 +230,7 @@ body {
     height: 4vh;
     background-color: #4d5d53;
     color: #ffffff;
-    padding: 10px 40px;
+    padding: 1vh 2vh;
     font-size: 1.5vh;
     font-weight: bolder;
     font-family: "Helvetica Neue", Arial, sans-serif;
@@ -296,7 +299,7 @@ body {
 
 .form-registro div label {
     font-family: noto-sans;
-    font-size: larger;
+    font-size: 2vh;
 }
 
 .form-registro div input,
@@ -321,6 +324,7 @@ body {
     width: 90%;
     align-self: center;
     border-collapse: collapse;
+    font-size: 1.5vh;
     font-family: ibm-plex-semi-bold;
 }
 
