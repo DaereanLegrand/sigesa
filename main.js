@@ -35,6 +35,20 @@ function showBarcode(event, data) {
     createWindow2();
 }
 
+function showReporte(event) {
+     const createWindow3 = () => {
+        let win3 = new BrowserWindow({
+            width: 800,
+            height: 800,
+        });
+
+        win3.loadFile("reporte.html");
+    };
+
+    createWindow3();
+   
+}
+
 const createWindow = () => {
     win = new BrowserWindow({
         width: 800,
@@ -63,5 +77,6 @@ app.on(
 app.whenReady().then(() => {
     ipcMain.on("dialog", createDialogInfo);
     ipcMain.on("showBarcode", showBarcode);
+    ipcMain.on("reporte", showReporte);
     createWindow();
 });

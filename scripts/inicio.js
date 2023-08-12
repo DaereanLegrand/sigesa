@@ -156,6 +156,10 @@ class Inicio {
         btnImpimirReporte.innerText = "Imprimir Reporte";
         btnImpimirReporte.className = "action-button";
 
+        btnImpimirReporte.addEventListener('click', () => {
+            window.api.reporte();
+        })
+
         bottomButtons.appendChild(btnVisVehiculos);
         bottomButtons.appendChild(btnImpimirReporte);
 
@@ -192,6 +196,10 @@ class Inicio {
         var btnImpimirReporte = document.createElement("button");
         btnImpimirReporte.innerText = "Imprimir Reporte";
         btnImpimirReporte.className = "action-button";
+
+        btnImpimirReporte.addEventListener('click', () => {
+            window.api.reporte();
+        })
 
         bottomButtons.appendChild(btnVisPersonas);
         bottomButtons.appendChild(btnImpimirReporte);

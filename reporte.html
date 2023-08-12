@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="./reporte.css" />
+        <script defer src="./scripts/inicio.js"></script>
+        <script defer src="./scripts/persona.js"></script>
+        <script defer src="./scripts/vehiculo.js"></script>
+        <script defer src="./scripts/auxFunctions.js"></script>
+        <script defer src="reporte.js"></script>
+        <title>Reporte del día</title>
+    </head>
+    <body onload="mostrarReportes()">
+        <div id="reporte-titulo-div">
+            <h1 id="reporte-titulo" class="titulo">REPORTE DE GUARDIA</h1>
+            <h2 id="reporte-dia" class="parrafo"></h1>
+        </div>
+        <div id="reporte-guardia">
+            <h1 class="subtitulo">Personal de guardia</h1>
+        </div>
+        <div id="reporte-personas">
+            <h1 class="subtitulo">Reporte de entradas y salidas de personas</h1>
+        </div>
+        <div id="reporte-vehiculos">
+            <h1 class="subtitulo">Reporte de entradas y salidas de vehículos</h1>
+        </div>
+        <button id="imprimir" class="action-button">Imprimir</button>
+    </body>
+</html>

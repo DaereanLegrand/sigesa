@@ -57,7 +57,7 @@ class Vehículo {
             .then((data) => {
                 if (data != null) {
                     if (data.success == true) {
-                        let i = 0;
+                        let i = 1;
                         data.data.forEach((row) => {
                             console.log(row);
                             const mtr = document.createElement('tr');

@@ -229,3 +229,37 @@ function obtenerDiaDeGuardia() {
     return `[${formattedIntervalStart}, ${formattedIntervalEnd})`;
 }
 
+function formatDate(date) {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+}
+
+function formatTime(date) {
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${hours}:${minutes}`;
+}
+
+function obtenerDiaReporte(date) {
+    return `${formatDate(date)} ${formatTime(date)}`;
+}
+
+function obtenerDiaDeGuardiaReporte() {
+    const now = new Date();
+    const intervalStart = new Date();
+    const intervalEnd = new Date();
+
+    intervalStart.setHours(8, 0, 0, 0);
+    intervalEnd.setHours(8, 0, 0, 0);
+
+    if (now.getHours() < 8) {
+        intervalStart.setDate(intervalStart.getDate() - 1);
+    } else {
+        intervalEnd.setDate(intervalEnd.getDate() + 1);
+    }
+    
+    return `${obtenerDiaReporte(intervalStart)} - ${obtenerDiaReporte(intervalEnd)}`;
+}
+
