@@ -905,7 +905,7 @@ class Registrar {
 
         if (document.getElementById("apellidos").readOnly == false) {
             try {
-             const response = await fetch(
+                const response = await fetch(
                     "https://localhost:8080/registrarPersona",
                     {
                         method: "POST",
@@ -915,7 +915,7 @@ class Registrar {
                                 document.getElementById("apellidos").value,
                             nombres: document.getElementById("nombres").value,
                         }),
-                    }   
+                    }
                 );
 
                 const data = await response.json();
@@ -1083,23 +1083,26 @@ class Registrar {
             }),
         });
     }
-    async insertarPGuardia(event){
+    async insertarPGuardia(event) {
         event.preventDefault();
         console.log();
 
         if (document.getElementById("dni-ofGuardia").disabled == false) {
             try {
-            console.log("b");
-             const response = await fetch(
+                console.log("b");
+                const response = await fetch(
                     "https://localhost:8080/registrarPGuardia",
                     {
                         method: "POST",
                         body: JSON.stringify({
-                            dniOG: document.getElementById("dni-ofGuardia").value,
-                            dniOD: document.getElementById("dni-adjuntoOfGuardia").value,
+                            dniOG: document.getElementById("dni-ofGuardia")
+                                .value,
+                            dniOD: document.getElementById(
+                                "dni-adjuntoOfGuardia"
+                            ).value,
                             dia_guardia: obtenerDiaDeGuardia(),
                         }),
-                    }   
+                    }
                 );
 
                 const data = await response.json();
@@ -1112,9 +1115,13 @@ class Registrar {
                         );
 
                         this.guardia = data.id_personal_guardia;
-                        
-                        document.getElementById("dni-ofGuardia").disabled = true;
-                        document.getElementById("dni-adjuntoOfGuardia").disabled = true;
+
+                        document.getElementById(
+                            "dni-ofGuardia"
+                        ).disabled = true;
+                        document.getElementById(
+                            "dni-adjuntoOfGuardia"
+                        ).disabled = true;
                     } else if (data.success == false) {
                         window.api.dialog(
                             "Error",
@@ -1127,21 +1134,22 @@ class Registrar {
             }
         }
     }
-    async insertarTGuardia(event){
+    async insertarTGuardia(event) {
         console.log();
 
         if (document.getElementById("dni-tropa").disabled == false) {
             try {
-            console.log("b");
-             const response = await fetch(
+                console.log("b");
+                const response = await fetch(
                     "https://localhost:8080/registrarTGuardia",
                     {
                         method: "POST",
                         body: JSON.stringify({
-                            dniTropa: document.getElementById("dni-tropa").value,
+                            dniTropa:
+                                document.getElementById("dni-tropa").value,
                             idGuardia: this.guardia,
                         }),
-                    }   
+                    }
                 );
 
                 const data = await response.json();
@@ -1152,7 +1160,6 @@ class Registrar {
                             "Exito",
                             "La persona fue registrada correctamente."
                         );
-                        
                     } else if (data.success == false) {
                         window.api.dialog(
                             "Error",
@@ -1163,10 +1170,10 @@ class Registrar {
             } catch (error) {
                 console.error("Error:", error);
             }
-        }  
+        }
     }
-    personaldeGuardia(contentDiv){
-        contentDiv.innerHTML = ""
+    personaldeGuardia(contentDiv) {
+        contentDiv.innerHTML = "";
 
         var formDiv = document.createElement("div");
         formDiv.className = "form-div";
@@ -1184,11 +1191,10 @@ class Registrar {
             "dni-ofGuardia",
             "form-inp",
             "8",
-            false 
+            false
         );
-        
 
-         /* ******************************************************* */
+        /* ******************************************************* */
 
         const subtitleAOG = document.createElement("h2");
         subtitleAOG.className = "subtitle";
@@ -1200,19 +1206,18 @@ class Registrar {
             "dni-adjuntoOfGuardia",
             "form-inp",
             "8",
-            false 
+            false
         );
 
         var ooBtn = document.createElement("button");
         ooBtn.className = "action-button";
         ooBtn.innerText = "Registrar";
 
-        
-        ooBtn.addEventListener('click', (event) => {
-            console.log("a");    
+        ooBtn.addEventListener("click", (event) => {
+            console.log("a");
             this.insertarPGuardia(event);
         });
-        
+
         /* ******************************************************* */
 
         const subtitleTropa = document.createElement("h2");
@@ -1225,34 +1230,31 @@ class Registrar {
             "dni-tropa",
             "form-inp",
             "8",
-            false 
+            false
         );
 
         var tropaBtn = document.createElement("button");
         tropaBtn.className = "action-button";
         tropaBtn.innerText = "Registrar";
 
-        
-        tropaBtn.addEventListener('click', (event) => {
+        tropaBtn.addEventListener("click", (event) => {
             event.preventDefault();
-                if(this.guardia != null){
-                    this.insertarTGuardia();
-                    window.api.dialog(
-                        "Exito",
-                        "La persona fue registrada correctamente.",
-                        
-                    );
-                }else{
-                    window.api.dialog(
-                        "Error",
-                        `Registra al Oficial de Guardia y su adjunto primero.`
-                    );
-                }
+            if (this.guardia != null) {
+                this.insertarTGuardia();
+                window.api.dialog(
+                    "Exito",
+                    "La persona fue registrada correctamente."
+                );
+            } else {
+                window.api.dialog(
+                    "Error",
+                    `Registra al Oficial de Guardia y su adjunto primero.`
+                );
+            }
         });
         divTropa.appendChild(tropaBtn);
-        
+
         /* ******************************************************* */
-        
 
         formDiv.appendChild(formRegistro);
         contentDiv.appendChild(ftopBar());
@@ -1271,127 +1273,14 @@ class Registrar {
         formRegistro.appendChild(subtitleTropa);
         formRegistro.appendChild(divTropa);
 
-
-        contentDiv.appendChild(formDiv); 
+        contentDiv.appendChild(formDiv);
     }
-    tablaPGAdmin(){
-        const headers = [
-            "N°",
-            "DNI",
-            "Grado",
-            "Apellidos y Nombres",
-            "Servicio de Día",
-        ];
 
-        var tablaDiv = document.createElement("div");
-        tablaDiv.className = "tabla-div";
-        var tablaPG = document.createElement("table");
-        tablaPG.id = "tabla-personal";
-        var headersTablaPG = document.createElement("thead");
-        var tbody = document.createElement("tbody");
-
-        var num = 0;
-        headers.map((header) => {
-            var head = document.createElement("th");
-            head.innerText = header;
-
-            headersTablaPG.appendChild(head);
-
-            switch (num) {
-                case 0:
-                    head.style.width = "3vw";
-                    break;
-                case 1:
-                    head.style.width = "8vw";
-                    break;
-                case 2:
-                    head.style.width = "8vw";
-                    break;
-                case 3:
-                    head.style.width = "20vw";
-                    break;
-                case 4:
-                    head.style.width = "8vw";
-                    break;
-            }
-            num++;
-        });
-
-        tablaPG.appendChild(headersTablaPG); 
-
-        try {
-            fetch("https://localhost:8080/personalGuardia")
-            .then((response) => response.json())
-                .then((data) => {
-                    if (data.success == true) {
-                        let i = 1;
-                        
-
-
-                        data.data.forEach((registro) => {
-                            var row = document.createElement("tr");
-                            var cellNumber = document.createElement("td");
-                            cellNumber.innerText = i + 1;
-                            
-                            var cellDNI = document.createElement("td");
-                            cellDNI.innerText = registro.dni_oficial_guardia;
-                            
-                            var cellGrado = document.createElement("td");
-                            cellGrado.innerText = registro.grado_oficial_guardia;
-    
-                            var cellNombre = document.createElement("td");
-                            cellNombre.innerText = registro.apellidos_oficial_guardia + " " + registro.nombres_oficial_guardia; 
-    
-                            var cellServicio = document.createElement("td");
-                            cellServicio.innerText = "Oficial de Guardia";
-    
-                            var row2 = document.createElement("tr");
-                            var cellNumber2 = document.createElement("td");
-                            cellNumber2.innerText = i + 1;
-                            
-                            var cellDNI2 = document.createElement("td");
-                            cellDNI2.innerText = registro.dni_oficial_dia;
-                            
-                            var cellGrado2 = document.createElement("td");
-                            cellGrado2.innerText = registro.rango_oficial_dia;
-    
-                            var cellNombre2 = document.createElement("td");
-                            cellNombre2.innerText = registro.apellidos_oficial_dia + " " + registro.nombres_oficial_dia; 
-    
-                            var cellServicio2 = document.createElement("td");
-                            cellServicio2.innerText = "Adjunto de Oficial de Guardia";
-    
-                            row.appendChild(cellNumber);
-                            row.appendChild(cellDNI);
-                            row.appendChild(cellGrado);
-                            row.appendChild(cellNombre);
-                            row.appendChild(cellServicio);
-                            row2.appendChild(cellNumber2);
-                            row2.appendChild(cellDNI2);
-                            row2.appendChild(cellGrado2);
-                            row2.appendChild(cellNombre2);
-                            row2.appendChild(cellServicio2);
-                            tbody.appendChild(row);
-                            tbody.appendChild(row2);
-                            tablaPG.appendChild(tbody);
-                        });
-                    }
-                });
-
-            } catch (error) {
-                console.log(error);
-            }
-
-        tablaDiv.appendChild(tablaPG) 
-
-        return tablaDiv;
-    }
-    personaldeGuardiaAdmin(contentDiv){
-        contentDiv.innerHTML = ""
+    personaldeGuardiaAdmin(contentDiv) {
+        contentDiv.innerHTML = "";
 
         var formDiv = document.createElement("div");
         formDiv.className = "form-div";
-
 
         contentDiv.appendChild(ftopBar());
         contentDiv.appendChild(
@@ -1402,9 +1291,6 @@ class Registrar {
         );
 
         contentDiv.appendChild(formDiv);
-        formDiv.appendChild(this.tablaPGAdmin());
-
-
+        formDiv.appendChild(inicio.createTablaPGAdmin());
     }
-
 }

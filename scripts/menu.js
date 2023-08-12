@@ -75,20 +75,21 @@ class Menu {
                     break;
                 case "Personal de guardia":
                     btn1.addEventListener("click", () => {
-                        if(lastClicked != null){
-                            lastClicked.style.boxShadow = "0 4px 0 #174A3B";
+                        if (lastClicked != null) {
+                            lastClicked.style.boxShadow = "0 4px 0 #8a8d8f";
                         }
+
                         registrar.personaldeGuardiaAdmin(contentDisp);
-                        item.style.boxShadow = "0 4px 0 #174A3B"
+                        item.style.boxShadow = "0 4px 0 #174A3B";
 
                         lastClicked = item;
-                    })
+                    });
                     break;
                 case "Generación de BARCODES":
                     btn1.addEventListener("click", () => {
                         if (lastClicked != null) {
                             lastClicked.style.boxShadow = "0 4px 0 #8a8d8f";
-                        }if (lastClcked){}
+                        }
 
                         barcode.showGenBarcode(contentDisp);
                         item.style.boxShadow = "0 4px 0 #174A3B";
