@@ -9,5 +9,8 @@ contextBridge.exposeInMainWorld("api", {
     },
     reporte: () => {
         ipcRenderer.send('reporte');
+    },
+    showAllBarcodes: () => {
+        ipcRenderer.send('showAllBarcodes');
     }
 });

@@ -2,11 +2,14 @@
 <html>
     <head>
         <meta charset="UTF-8" />
+        <link rel="stylesheet" href="./barcode.css" />
         <script defer src="barcode.js"></script>
         <title>Código de barras</title>
     </head>
-    <body>
-        <br /><br /><img id="myimg" />
+    <body onload="auxiliar()">
+        <img id="myimg" />
         <pre id="output"></pre>
+        <div id="main-div"></div>
+        <button id="imprimir" class="action-button">Imprimir</button>
     </body>
 </html>
