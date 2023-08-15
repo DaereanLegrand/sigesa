@@ -159,6 +159,7 @@ class Registrar {
 
         btnSubmit.addEventListener("click", (event) => {
             this.registrarPersona(event);
+            this.showRegistrarPersona(contentDiv);
         });
 
         formRegistro.appendChild(divCheck);
@@ -261,6 +262,7 @@ class Registrar {
         btnSubmit.innerText = "Registrar vehículo";
         btnSubmit.addEventListener("click", (event) => {
             this.registrarVehiculo(event);
+            this.showRegistrarVehiculo(contentDiv);
         });
 
         formRegistro.appendChild(colorDropdownWithLabel);
@@ -393,39 +395,46 @@ class Registrar {
             var placaInput = document.getElementById("placa");
             var apellidosInput = document.getElementById("apellidos");
             var nombresInput = document.getElementById("nombres");
-            if(dniInput.value.length == 8){
-                if(placaInput.value.length == 7 ){
-                    if ( apellidosInput.value === "" || nombresInput.value === "") {
+            if (dniInput.value.length == 8) {
+                if (placaInput.value.length == 7) {
+                    if (
+                        apellidosInput.value === "" ||
+                        nombresInput.value === ""
+                    ) {
                         window.api.dialog(
-                            "Error", 
+                            "Error",
                             "Por favor, complete todos los campos obligatorios correctamente."
-                            );
+                        );
                     } else {
                         this.registrarIngresoVehiculo(event);
-                        window.api.dialog(
-                            "Exito",
-                            "Se ah registrado el vehiculo correctamente."
-                        );
+                        this.showRegistrarIngresoVehiculo(contentDiv);
                     }
-                }else{
+                } else {
                     window.api.dialog(
                         "Error",
-                        "Error: El DNI debe tener 8 digitos."
+                        "Error: La placa debe tener 7 digitos."
                     );
                 }
+            } else {
                 window.api.dialog(
                     "Error",
                     "Error: El DNI debe tener 8 digitos."
                 );
             }
-            
         });
 
         formRegistro.appendChild(colorDropdownWithLabel);
         formRegistro.appendChild(modelDropdownWithLabel);
         formRegistro.appendChild(brandDropdownWithLabel);
         formRegistro.appendChild(
-            createTextArea("Motivo: ", "text", "motivo", "form-inp", "1000")
+            createTextArea(
+                "Motivo: ",
+                "text",
+                "motivo",
+                "form-inp",
+                "1000",
+                false
+            )
         );
         formRegistro.appendChild(
             createInputField(
@@ -434,7 +443,7 @@ class Registrar {
                 "persona-visitada",
                 "form-inp",
                 "100",
-                true
+                false
             )
         );
 
@@ -498,6 +507,7 @@ class Registrar {
                     );
                 } else {
                     this.registrarIngresoPersona(event);
+                    this.showRegistrarIngresoPersonas(contentDiv);
                 }
             } else {
                 window.api.dialog(
@@ -510,6 +520,7 @@ class Registrar {
         formRegistro.appendChild(
             createInputField("DNI", "number", "dni", "form-inp", "9", true)
         );
+
         formRegistro.appendChild(
             createInputField(
                 "Apellidos: ",
@@ -559,8 +570,7 @@ class Registrar {
         btnIngVehiculos.innerText = "Ingreso de Vehículos";
         btnIngVehiculos.className = "action-button";
 
-        btnIngVehiculos.addEventListener("click", () => {
-            
+        btnIngVehiculos.addEventListener('click', (event) => {
             this.showRegistrarIngresoVehiculo(contentDiv);
         });
 
@@ -946,7 +956,7 @@ class Registrar {
         event.preventDefault();
         let feedback = "";
 
-        if (document.getElementById("apellidos").readOnly == false) {
+        if (document.getElementById("apellidos").disabled == false) {
             try {
                 const response = await fetch(
                     "https://localhost:8080/registrarPersona",
@@ -966,11 +976,8 @@ class Registrar {
                 if (data != null) {
                     if (data.success == true) {
                         feedback += "La persona fue registrada correctamente.";
-                    } else {
-                        feedback += "No se registro una nueva persona";
-                    }
+                    } 
                 }
-
             } catch (error) {
                 console.error("Error:", error);
             }
@@ -992,7 +999,8 @@ class Registrar {
                     if (data.success == true) {
                         window.api.dialog(
                             "Exito",
-                            "El ingreso de la persona fue registrado correctamente. " + feedback
+                            "El ingreso de la persona fue registrado correctamente. " +
+                                feedback
                         );
                     } else if (data.success == false) {
                         window.api.dialog(
@@ -1030,12 +1038,7 @@ class Registrar {
                             "Exito",
                             "La persona fue registrada correctamente."
                         );
-                    } else if (data.success == false) {
-                        window.api.dialog(
-                            "Error",
-                            `Hubo un error al registrar a dicha persona. ERROR: ${data.error}`
-                        );
-                    }
+                    } 
                 }
             } catch (error) {
                 console.error("Error:", error);
@@ -1068,12 +1071,7 @@ class Registrar {
                             "Exito",
                             "El vehículo fue registrado correctamente."
                         );
-                    } else if (data.success == false) {
-                        window.api.dialog(
-                            "Error",
-                            `Hubo un error al registrar a dicho vehículo. ERROR: ${data.error}`
-                        );
-                    }
+                    } 
                 }
             } catch (error) {
                 console.error("Error:", error);
@@ -1089,7 +1087,23 @@ class Registrar {
                 aquienvisita: document.getElementById("persona-visitada").value,
                 dia_guardia: obtenerDiaDeGuardia(),
             }),
-        });
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data != null) {
+                    if (data.success == true) {
+                        window.api.dialog(
+                            "Exito",
+                            "El ingreso del vehículo fue registrado correctamente."
+                        );
+                    } else {
+                        window.api.dialog(
+                            "Error",
+                            "El ingreso del vehículo no fue registrado correctamente."
+                        );
+                    }
+                }
+            });
     }
     async insertarPGuardia(event) {
         event.preventDefault();
