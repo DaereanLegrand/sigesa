@@ -389,7 +389,10 @@ class Registrar {
         btnSubmit.className = "registrar-submit";
         btnSubmit.innerText = "Registrar ingreso";
         btnSubmit.addEventListener("click", (event) => {
-            
+            var dniInput = document.getElementById("dni");
+            var placaInput = document.getElementById("placa");
+            var apellidosInput = document.getElementById("apellidos");
+            var nombresInput = document.getElementById("nombres");
             if(dniInput.value.length == 8){
                 if(placaInput.value.length == 7 ){
                     if ( apellidosInput.value === "" || nombresInput.value === "") {
