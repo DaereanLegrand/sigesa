@@ -80,7 +80,7 @@ class Menu {
                             lastClicked.style.boxShadow = "0 4px 0 #8a8d8f";
                         }
 
-                        registrar.personaldeGuardiaAdmin(contentDisp);
+                        registrar.personaldeGuardiaTabla(contentDisp);
                         item.style.boxShadow = "0 4px 0 #174A3B";
 
                         lastClicked = item;
