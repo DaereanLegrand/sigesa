@@ -56,6 +56,15 @@ class Barcode {
 
         divPlaca.appendChild(placaBtn);
 
+        var showAllPlacasBtn = document.createElement("button");
+        showAllPlacasBtn.className = "action-button";
+        showAllPlacasBtn.innerText = "Generar para todos los vehículos";
+
+        showAllPlacasBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.api.showAllBarcodes();
+        });
+
         const subtitlePapeleta = document.createElement("h2");
         subtitlePapeleta.className = "subtitle";
         subtitlePapeleta.innerText = "Crear para papeleta: ";
@@ -102,6 +111,7 @@ class Barcode {
         formRegistro.appendChild(divDni);
         formRegistro.appendChild(subtitleVehiculos);
         formRegistro.appendChild(divPlaca);
+        formRegistro.appendChild(showAllPlacasBtn);
         formRegistro.appendChild(subtitlePapeleta);
         formRegistro.appendChild(divPapeleta);
 

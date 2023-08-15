@@ -7,37 +7,47 @@ class User {
 
         fetch("https://localhost:8080/login", {
             method: "POST",
-            body: JSON.stringify({ usuario: this.user, contraseña: this.pass}),
+            body: JSON.stringify({ usuario: this.user, contraseña: this.pass }),
         })
             .then((response) => response.json())
             .then((data) => {
-                if (data[0].count != 0 && data[0].tipo == "admin") {
-                    document.getElementById("mDiv").innerHTML = '';
+                if (data.length > 0) {
+                    if (data[0].tipo == "admin") {
+                        document.getElementById("mDiv").innerHTML = "";
 
-                    var menu = new Menu;
-                    document.getElementById("mDiv").appendChild(menu.showMenuAdmin());
-                    
-                    return true;
-                } else if (data[0].count != 0 && data[0].tipo == "usuario") {
-                    document.getElementById("mDiv").innerHTML = '';
+                        var menu = new Menu();
+                        document
+                            .getElementById("mDiv")
+                            .appendChild(menu.showMenuAdmin());
 
-                    var menu = new Menu;
-                    document.getElementById("mDiv").appendChild(menu.showMenuUsuario());
-                    
-                    return true;
+                        return true;
+                    } else if (data[0].tipo == "usuario") {
+                        document.getElementById("mDiv").innerHTML = "";
+
+                        var menu = new Menu();
+                        document
+                            .getElementById("mDiv")
+                            .appendChild(menu.showMenuUsuario());
+
+                        return true;
+                    }
                 } else {
+                    window.api.dialog(
+                        "Error",
+                        "Las credenciales ingresadas no son válidas."
+                    );
                     return false;
                 }
             });
     }
 
-    registrese(contentDiv){
+    registrese(contentDiv) {
         const index = document.getElementById("loginDiv");
-        const buttonRegistrese = document.getElementById("registrese")
-        const formularioLogin = document.getElementById("loginForm");     
+        const buttonRegistrese = document.getElementById("registrese");
+        const formularioLogin = document.getElementById("loginForm");
         const formularioRegistrar = document.createElement("form");
         formularioRegistrar.className = "login-form";
-        
+
         const entradaCIP = document.createElement("input");
         entradaCIP.type = "text";
         entradaCIP.id = "cip";
@@ -61,63 +71,60 @@ class User {
         btnCrearUsuario.innerText = "Crear Usuario";
 
         index.removeChild(formularioLogin);
-        index.removeChild(buttonRegistrese);     
+        index.removeChild(buttonRegistrese);
 
         const btnVolver = document.createElement("button");
         btnVolver.id = "btnVolver";
         btnVolver.className = "registrar-submit";
         btnVolver.innerText = "Volver";
-        
+
         formularioRegistrar.appendChild(entradaCIP);
         formularioRegistrar.appendChild(password1);
         formularioRegistrar.appendChild(passwordVerificar);
         formularioRegistrar.appendChild(btnVolver);
         formularioRegistrar.appendChild(btnCrearUsuario);
-        
+
         index.appendChild(formularioRegistrar);
         index.appendChild(btnVolver);
 
-        btnCrearUsuario.addEventListener('click', (event) =>
-        {
+        btnCrearUsuario.addEventListener("click", (event) => {
             event.preventDefault();
-            if(password1.value == passwordVerificar.value){
+            if (password1.value == passwordVerificar.value) {
                 console.log("asada");
                 fetch("https://localhost:8080/registrarUsuario", {
                     method: "POST",
                     body: JSON.stringify({
                         cip: document.getElementById("cip").value,
                         contraseña: document.getElementById("pass").value,
-                    }),    
+                    }),
                 })
-                .then((response) => response.json())
-                .then((data) => {
-                console.log(data);
-                if (data != null) {
-                    if (data.success == true) {
-                        window.api.dialog(
-                            "Exito",
-                            "La persona fue registrada correctamente."
-                            );
-                    } else if (data.success == false) {
-                        window.api.dialog(
-                            "Error",
-                            `Hubo un error al registrar a dicha persona. ERROR: ${data.error}`
-                            );
+                    .then((response) => response.json())
+                    .then((data) => {
+                        console.log(data);
+                        if (data != null) {
+                            if (data.success == true) {
+                                window.api.dialog(
+                                    "Exito",
+                                    "La persona fue registrada correctamente."
+                                );
+                            } else if (data.success == false) {
+                                window.api.dialog(
+                                    "Error",
+                                    `Hubo un error al registrar a dicha persona. ERROR: ${data.error}`
+                                );
+                            }
                         }
-                    }
-                });
-            }else{
+                    });
+            } else {
                 alert("Las contraseñas no coinciden");
             }
-                
         });
 
-        btnVolver.addEventListener('click', () => {
+        btnVolver.addEventListener("click", () => {
             index.removeChild(formularioRegistrar);
             index.removeChild(btnVolver);
             index.appendChild(formularioLogin);
             index.appendChild(buttonRegistrese);
         });
-
     }
 }
