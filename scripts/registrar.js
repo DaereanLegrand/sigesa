@@ -914,6 +914,7 @@ class Registrar {
 
     async registrarIngresoPersona(event) {
         event.preventDefault();
+        let feedback = "";
 
         if (document.getElementById("apellidos").readOnly == false) {
             try {
@@ -934,21 +935,17 @@ class Registrar {
 
                 if (data != null) {
                     if (data.success == true) {
-                        window.api.dialog(
-                            "Exito",
-                            "La persona fue registrada correctamente."
-                        );
-                    } else if (data.success == false) {
-                        window.api.dialog(
-                            "Error",
-                            `Hubo un error al registrar a dicha persona. ERROR: ${data.error}`
-                        );
+                        feedback += "La persona fue registrada correctamente.";
+                    } else {
+                        feedback += "No se pudo registrar a la persona";
                     }
                 }
+
             } catch (error) {
                 console.error("Error:", error);
             }
         }
+
         fetch("https://localhost:8080/registrarIngresoPersona", {
             method: "POST",
             body: JSON.stringify({
@@ -957,55 +954,24 @@ class Registrar {
                 aquienvisita: document.getElementById("persona-visitada").value,
                 dia_guardia: obtenerDiaDeGuardia(),
             }),
-        });
-    }
-
-    async registrarIngresoPersona(event) {
-        event.preventDefault();
-
-        if (document.getElementById("apellidos").disabled == false) {
-            try {
-                const response = await fetch(
-                    "https://localhost:8080/registrarPersona",
-                    {
-                        method: "POST",
-                        body: JSON.stringify({
-                            dni: document.getElementById("dni").value,
-                            apellidos:
-                                document.getElementById("apellidos").value,
-                            nombres: document.getElementById("nombres").value,
-                        }),
-                    }
-                );
-
-                const data = await response.json();
-
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
                 if (data != null) {
                     if (data.success == true) {
                         window.api.dialog(
                             "Exito",
-                            "La persona fue registrada correctamente."
+                            "El ingreso de la persona fue registrado correctamente. " + feedback
                         );
                     } else if (data.success == false) {
                         window.api.dialog(
                             "Error",
-                            `Hubo un error al registrar a dicha persona. ERROR: ${data.error}`
+                            `Hubo un error al registrar el ingreos de dicha persona. ERROR: ${data.error} ${feedback}`
                         );
                     }
                 }
-            } catch (error) {
-                console.error("Error:", error);
-            }
-        }
-        fetch("https://localhost:8080/registrarIngresoPersona", {
-            method: "POST",
-            body: JSON.stringify({
-                dni: document.getElementById("dni").value,
-                motivo: document.getElementById("motivo").value,
-                aquienvisita: document.getElementById("persona-visitada").value,
-                dia_guardia: obtenerDiaDeGuardia(),
-            }),
-        });
+            });
     }
 
     async registrarIngresoVehiculo(event) {
@@ -1283,7 +1249,7 @@ class Registrar {
             btnMostrarGuardia.innerText = "Volver";
             btnMostrarGuardia.className = "action-button";
 
-            btnMostrarGuardia.addEventListener('click', () => {
+            btnMostrarGuardia.addEventListener("click", () => {
                 this.personaldeGuardia(contentDiv);
             });
 
