@@ -35,6 +35,27 @@ function showBarcode(event, data) {
     createWindow2();
 }
 
+function showAllBarcodes(event) {
+    const { width, height } = require('electron').screen.getPrimaryDisplay().workAreaSize;
+    const createWindow3 = () => {
+        let win3 = new BrowserWindow({
+            width: width,
+            height: height,
+            webPreferences: {
+                nodeIntegration: true,
+                contextIsolation: false,
+            },
+        });
+
+        win3.loadFile("barcode.html");
+        win3.webContents.on("did-finish-load", () => {
+           win3.webContents.executeJavaScript(
+           `multiBarcode();`);
+        });
+    };
+    createWindow3();
+}
+
 function showReporte(event) {
      const createWindow3 = () => {
         let win3 = new BrowserWindow({
@@ -50,9 +71,11 @@ function showReporte(event) {
 }
 
 const createWindow = () => {
+    const { width, height } = require('electron').screen.getPrimaryDisplay().workAreaSize;
     win = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: width,
+        height: height,
+        frame: false,
         webPreferences: {
             contextIsolation: true,
             preload: path.join(__dirname, "preload.js"),
@@ -77,6 +100,7 @@ app.on(
 app.whenReady().then(() => {
     ipcMain.on("dialog", createDialogInfo);
     ipcMain.on("showBarcode", showBarcode);
+    ipcMain.on("showAllBarcodes", showAllBarcodes);
     ipcMain.on("reporte", showReporte);
     createWindow();
 });
