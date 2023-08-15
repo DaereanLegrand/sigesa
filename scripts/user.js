@@ -98,28 +98,25 @@ class User {
                         contraseña: document.getElementById("pass").value,
                     }),
                 })
-                .then((response) => response.json())
-                .then((data) => {
-                console.log(data);
-                if (data != null) {
-                    if (data.success == true) {
-                        window.api.dialog(
-                            "Exito",
-                            "La persona fue registrada correctamente."
-                            );
-                    } else if (data.success == false) {
-                        window.api.dialog(
-                            "Error",
-                            `El CIP no se reconoce. ERROR: ${data.error}`
-                            );
+                    .then((response) => response.json())
+                    .then((data) => {
+                        console.log(data);
+                        if (data != null) {
+                            if (data.success == true) {
+                                window.api.dialog(
+                                    "Exito",
+                                    "La persona fue registrada correctamente."
+                                );
+                            } else if (data.success == false) {
+                                window.api.dialog(
+                                    "Error",
+                                    `ERROR: ${data.error}`
+                                );
+                            }
                         }
-                    }
-                });
-            }else{
-                window.api.dialog(
-                    'error',
-                    "Las contraseñas no coinciden"
-                    );
+                    });
+            } else {
+                window.api.dialog("Error", "Las contraseñas no coinciden");
             }
         });
 
