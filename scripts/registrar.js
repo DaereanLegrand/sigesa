@@ -389,7 +389,33 @@ class Registrar {
         btnSubmit.className = "registrar-submit";
         btnSubmit.innerText = "Registrar ingreso";
         btnSubmit.addEventListener("click", (event) => {
-            this.registrarIngresoVehiculo(event);
+            
+            if(dniInput.value.length == 8){
+                if(placaInput.value.length == 7 ){
+                    if ( apellidosInput.value === "" || nombresInput.value === "") {
+                        window.api.dialog(
+                            "Error", 
+                            "Por favor, complete todos los campos obligatorios correctamente."
+                            );
+                    } else {
+                        this.registrarIngresoVehiculo(event);
+                        window.api.dialog(
+                            "Exito",
+                            "Se ah registrado el vehiculo correctamente."
+                        );
+                    }
+                }else{
+                    window.api.dialog(
+                        "Error",
+                        "Error: El DNI debe tener 8 digitos."
+                    );
+                }
+                window.api.dialog(
+                    "Error",
+                    "Error: El DNI debe tener 8 digitos."
+                );
+            }
+            
         });
 
         formRegistro.appendChild(colorDropdownWithLabel);
@@ -531,6 +557,7 @@ class Registrar {
         btnIngVehiculos.className = "action-button";
 
         btnIngVehiculos.addEventListener("click", () => {
+            
             this.showRegistrarIngresoVehiculo(contentDiv);
         });
 
