@@ -964,7 +964,7 @@ class Registrar {
                     if (data.success == true) {
                         feedback += "La persona fue registrada correctamente.";
                     } else {
-                        feedback += "No se pudo registrar a la persona";
+                        feedback += "No se registro una nueva persona";
                     }
                 }
 
