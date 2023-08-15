@@ -15,13 +15,13 @@ const oficialesAbv = [
     "GRAL EJERCITO",
     "GRAL DIV",
     "GRAL BRIG",
-    "CRNL",
-    "TTE CRNL",
+    "CRL",
+    "TTE CRL",
     "MY",
     "CAP",
     "TTE",
     "ALFZ",
-    "SUB TTE",
+    "STTE",
 ];
 
 const tcosyso = [

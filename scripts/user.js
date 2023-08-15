@@ -26,6 +26,10 @@ class User {
                     
                     return true;
                 } else {
+                    window.api.dialog(
+                        'error',
+                        "El usuario no esta registrado"
+                        );
                     return false;
                 }
             });
@@ -101,13 +105,16 @@ class User {
                     } else if (data.success == false) {
                         window.api.dialog(
                             "Error",
-                            `Hubo un error al registrar a dicha persona. ERROR: ${data.error}`
+                            `El CIP no se reconoce. ERROR: ${data.error}`
                             );
                         }
                     }
                 });
             }else{
-                alert("Las contraseñas no coinciden");
+                window.api.dialog(
+                    'error',
+                    "Las contraseñas no coinciden"
+                    );
             }
                 
         });

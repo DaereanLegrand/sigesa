@@ -2,6 +2,7 @@ let lastClicked = null;
 let lastClickedU = null;
 
 class Menu {
+
     showMenuAdmin() {
         var content = document.createElement("div");
         content.className = "content-div";
@@ -88,12 +89,15 @@ class Menu {
                     btn1.addEventListener("click", () => {
                         if (lastClicked != null) {
                             lastClicked.style.boxShadow = "0 4px 0 #8a8d8f";
-                        }if (lastClcked){}
+                        }
 
-                        barcode.showGenBarcode(contentDisp);
-                        item.style.boxShadow = "0 4px 0 #174A3B";
+                            barcode.showGenBarcode(contentDisp);
+                            item.style.boxShadow = "0 4px 0 #174A3B";
 
-                        lastClicked = item;
+                            lastClicked = item;
+
+
+                        
                     });
 
                     break;
@@ -207,9 +211,12 @@ class Menu {
         loginInfo.className = "login-info";
         loginInfo.innerText = "BIENVENIDO";
 
+
+
         mmenu.appendChild(loginInfo);
         mmenu.appendChild(logo);
         mmenu.appendChild(menuitems);
+        
         content.appendChild(mmenu);
         content.appendChild(contentDisp);
         return content;

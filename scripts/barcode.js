@@ -114,5 +114,6 @@ class Barcode {
             )
         );
         contentDiv.appendChild(formDiv);
+        
     }
 }

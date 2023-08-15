@@ -463,7 +463,17 @@ class Registrar {
         btnSubmit.className = "registrar-submit";
         btnSubmit.innerText = "Registrar ingreso";
         btnSubmit.addEventListener("click", (event) => {
-            this.registrarIngresoPersona(event);
+
+            var dniInput = document.getElementById("dni");
+            var apellidosInput = document.getElementById("apellidos");
+            var nombresInput = document.getElementById("nombres");
+
+            if (dniInput.value.length !== 8 || apellidosInput.value === "" || nombresInput.value === "") {
+                window.alert("Error: Por favor, complete todos los campos obligatorios correctamente.");
+            } else {
+                this.registrarIngresoPersona(event);
+            }
+
         });
 
         formRegistro.appendChild(
