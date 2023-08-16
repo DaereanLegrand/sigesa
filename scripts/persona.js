@@ -20,6 +20,8 @@ class Persona {
                     } else if (data.exists == false) {
                         document.getElementById("nombres").disabled = false;
                         document.getElementById("apellidos").disabled = false;
+                        document.getElementById("nombres").value = "";
+                        document.getElementById("apellidos").value = "";
                     }
                 }
             });

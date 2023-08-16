@@ -406,8 +406,9 @@ class Registrar {
                             "Por favor, complete todos los campos obligatorios correctamente."
                         );
                     } else {
-                        this.registrarIngresoVehiculo(event);
-                        this.showRegistrarIngresoVehiculo(contentDiv);
+                        this.registrarIngresoVehiculo(event).then(() => {
+                            this.showRegistrarIngresoVehiculo(contentDiv);
+                        })
                     }
                 } else {
                     window.api.dialog(
@@ -506,8 +507,9 @@ class Registrar {
                         "Error: Por favor, complete todos los campos obligatorios correctamente."
                     );
                 } else {
-                    this.registrarIngresoPersona(event);
-                    this.showRegistrarIngresoPersonas(contentDiv);
+                    this.registrarIngresoPersona(event).then(() => {
+                        this.showRegistrarIngresoPersonas(contentDiv);
+                    })
                 }
             } else {
                 window.api.dialog(
