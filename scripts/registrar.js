@@ -408,7 +408,7 @@ class Registrar {
                     } else {
                         this.registrarIngresoVehiculo(event).then(() => {
                             this.showRegistrarIngresoVehiculo(contentDiv);
-                        })
+                        });
                     }
                 } else {
                     window.api.dialog(
@@ -446,6 +446,10 @@ class Registrar {
                 "100",
                 false
             )
+        );
+
+        formRegistro.appendChild(
+            createDropdownWithLabel("ensa", "Tipo:", ["ENTRADA", "SALIDA"])
         );
 
         formRegistro.appendChild(btnSubmit);
@@ -509,7 +513,7 @@ class Registrar {
                 } else {
                     this.registrarIngresoPersona(event).then(() => {
                         this.showRegistrarIngresoPersonas(contentDiv);
-                    })
+                    });
                 }
             } else {
                 window.api.dialog(
@@ -564,6 +568,10 @@ class Registrar {
             )
         );
 
+        formRegistro.appendChild(
+            createDropdownWithLabel("ensa", "Tipo:", ["ENTRADA", "SALIDA"])
+        );
+
         formRegistro.appendChild(btnSubmit);
 
         var bottomButtons = document.createElement("div");
@@ -572,7 +580,7 @@ class Registrar {
         btnIngVehiculos.innerText = "Ingreso de Vehículos";
         btnIngVehiculos.className = "action-button";
 
-        btnIngVehiculos.addEventListener('click', (event) => {
+        btnIngVehiculos.addEventListener("click", (event) => {
             this.showRegistrarIngresoVehiculo(contentDiv);
         });
 
@@ -978,7 +986,7 @@ class Registrar {
                 if (data != null) {
                     if (data.success == true) {
                         feedback += "La persona fue registrada correctamente.";
-                    } 
+                    }
                 }
             } catch (error) {
                 console.error("Error:", error);
@@ -992,6 +1000,7 @@ class Registrar {
                 motivo: document.getElementById("motivo").value,
                 aquienvisita: document.getElementById("persona-visitada").value,
                 dia_guardia: obtenerDiaDeGuardia(),
+                ensa: document.getElementById("ensa").value === 'ENTRADA'
             }),
         })
             .then((response) => response.json())
@@ -1040,7 +1049,7 @@ class Registrar {
                             "Exito",
                             "La persona fue registrada correctamente."
                         );
-                    } 
+                    }
                 }
             } catch (error) {
                 console.error("Error:", error);
@@ -1073,7 +1082,7 @@ class Registrar {
                             "Exito",
                             "El vehículo fue registrado correctamente."
                         );
-                    } 
+                    }
                 }
             } catch (error) {
                 console.error("Error:", error);
@@ -1088,6 +1097,7 @@ class Registrar {
                 motivo: document.getElementById("motivo").value,
                 aquienvisita: document.getElementById("persona-visitada").value,
                 dia_guardia: obtenerDiaDeGuardia(),
+                ensa: document.getElementById("ensa").value === 'ENTRADA'
             }),
         })
             .then((response) => response.json())
